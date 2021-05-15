@@ -7,8 +7,8 @@
 #define X_EVENT_KEY_EXIT	17
 #define texWidth 64
 #define texHeight 64
-#define mapWidth 24
-#define mapHeight 24
+#define mapWidth 10
+#define mapHeight 10
 #define width 640
 #define height 480
 #define numSprites 19
@@ -148,30 +148,16 @@ void	sortSprites(int *order, double *dist, int amount)
 
 int	worldMap[mapWidth][mapHeight] =
 									{
-										{8,8,8,8,8,8,8,8,8,8,8,4,4,6,4,4,6,4,6,4,4,4,6,4},
-										{8,0,0,0,0,0,0,0,0,0,8,4,0,0,0,0,0,0,0,0,0,0,0,4},
-										{8,0,3,3,0,0,0,0,0,8,8,4,0,0,0,0,0,0,0,0,0,0,0,6},
-										{8,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6},
-										{8,0,3,3,0,0,0,0,0,8,8,4,0,0,0,0,0,0,0,0,0,0,0,4},
-										{8,0,0,0,0,0,0,0,0,0,8,4,0,0,0,0,0,6,6,6,0,6,4,6},
-										{8,8,8,8,0,8,8,8,8,8,8,4,4,4,4,4,4,6,0,0,0,0,0,6},
-										{7,7,7,7,0,7,7,7,7,0,8,0,8,0,8,0,8,4,0,4,0,6,0,6},
-										{7,7,0,0,0,0,0,0,7,8,0,8,0,8,0,8,8,6,0,0,0,0,0,6},
-										{7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8,6,0,0,0,0,0,4},
-										{7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8,6,0,6,0,6,0,6},
-										{7,7,0,0,0,0,0,0,7,8,0,8,0,8,0,8,8,6,4,6,0,6,6,6},
-										{7,7,7,7,0,7,7,7,7,8,8,4,0,6,8,4,8,3,3,3,0,3,3,3},
-										{2,2,2,2,0,2,2,2,2,4,6,4,0,0,6,0,6,3,0,0,0,0,0,3},
-										{2,2,0,0,0,0,0,2,2,4,0,0,0,0,0,0,4,3,0,0,0,0,0,3},
-										{2,0,0,0,0,0,0,0,2,4,0,0,0,0,0,0,4,3,0,0,0,0,0,3},
-										{1,0,0,0,0,0,0,0,1,4,4,4,4,4,6,0,6,3,3,0,0,0,3,3},
-										{2,0,0,0,0,0,0,0,2,2,2,1,2,2,2,6,6,0,0,5,0,5,0,5},
-										{2,2,0,0,0,0,0,2,2,2,0,0,0,2,2,0,5,0,5,0,0,0,5,5},
-										{2,0,0,0,0,0,0,0,2,0,0,0,0,0,2,5,0,5,0,5,0,5,0,5},
-										{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5},
-										{2,0,0,0,0,0,0,0,2,0,0,0,0,0,2,5,0,5,0,5,0,5,0,5},
-										{2,2,0,0,0,0,0,2,2,2,0,0,0,2,2,0,5,0,5,0,0,0,5,5},
-										{2,2,2,2,1,2,2,2,2,2,2,1,2,2,2,5,5,5,5,5,5,5,5,5}
+										{1,1,1,1,1,1,1,1,1,1},
+										{2,0,0,0,0,0,0,0,0,3},
+										{2,0,0,0,0,0,0,0,0,3},
+										{2,0,0,0,0,0,0,0,0,3},
+										{2,0,0,0,0,0,0,0,0,3},
+										{2,0,0,0,0,0,0,0,0,3},
+										{2,0,0,0,0,0,0,0,0,3},
+										{2,0,0,0,0,0,0,0,0,3},
+										{2,0,0,0,0,0,0,0,0,3},
+										{4,4,4,4,4,4,4,4,4,4}
 									};
 
 void	draw(t_info *info)
@@ -220,19 +206,13 @@ void	calc(t_info *info)
 			int ty = (int)(texHeight * (floorY - cellY)) & (texHeight - 1);
 			floorX += floorStepX;
 			floorY += floorStepY;
-			// choose texture and draw the pixel
-			int checkerBoardPattern = (int)(cellX + cellY) & 1;
-			int floorTexture;
-			if(checkerBoardPattern == 0) floorTexture = 3;
-			else floorTexture = 4;
-			int ceilingTexture = 6;
+	
 			int color;
 			// floor
-			color = info->texture[floorTexture][texWidth * ty + tx];
-			color = (color >> 1) & 8355711; // make a bit darker
+			color = 0x00FF0000;
 			info->buf[y][x] = color;
 			//ceiling (symmetrical, at height - y - 1 instead of y)
-			color = info->texture[ceilingTexture][texWidth * ty + tx];
+			color = 0x0000FF00;
 			color = (color >> 1) & 8355711; // make a bit darker
 			info->buf[height - y - 1][x] = color;
 		}
@@ -508,11 +488,11 @@ void	load_texture(t_info *info)
 {
 	t_img	img;
 
-	load_image(info, info->texture[0], "textures/eagle.xpm", &img);
-	load_image(info, info->texture[1], "textures/redbrick.xpm", &img);
-	load_image(info, info->texture[2], "textures/purplestone.xpm", &img);
-	load_image(info, info->texture[3], "textures/greystone.xpm", &img);
-	load_image(info, info->texture[4], "textures/bluestone.xpm", &img);
+	load_image(info, info->texture[0], "textures/kita.xpm", &img);
+	load_image(info, info->texture[1], "textures/nishi.xpm", &img);
+	load_image(info, info->texture[2], "textures/higashi.xpm", &img);
+	load_image(info, info->texture[3], "textures/minami.xpm", &img);
+	load_image(info, info->texture[4], "textures/eagle.xpm", &img);
 	load_image(info, info->texture[5], "textures/mossy.xpm", &img);
 	load_image(info, info->texture[6], "textures/wood.xpm", &img);
 	load_image(info, info->texture[7], "textures/colorstone.xpm", &img);
@@ -527,8 +507,8 @@ int	main(void)
 	t_info info;
 	info.mlx = mlx_init();
 
-	info.posX = 22.0;
-	info.posY = 11.5;
+	info.posX = 5.0;
+	info.posY = 5.5;
 	info.dirX = -1.0;
 	info.dirY = 0.0;
 	info.planeX = 0.0;
