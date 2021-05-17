@@ -375,27 +375,21 @@ void	key_update(t_info *info)
 		if (!info->worldMap[(int)(info->posX)][(int)(info->posY - info->dirY * info->moveSpeed)])
 			info->posY -= info->dirY * info->moveSpeed;
 	}
-	//rotate to the right
+	//move right if no wall behind you
 	if (info->key_d)
 	{
-		//both camera direction and camera plane must be rotated
-		double oldDirX = info->dirX;
-		info->dirX = info->dirX * cos(-info->rotSpeed) - info->dirY * sin(-info->rotSpeed);
-		info->dirY = oldDirX * sin(-info->rotSpeed) + info->dirY * cos(-info->rotSpeed);
-		double oldPlaneX = info->planeX;
-		info->planeX = info->planeX * cos(-info->rotSpeed) - info->planeY * sin(-info->rotSpeed);
-		info->planeY = oldPlaneX * sin(-info->rotSpeed) + info->planeY * cos(-info->rotSpeed);
+		if (!info->worldMap[(int)(info->posX + info->dirY * info->moveSpeed)][(int)(info->posY)])
+			info->posX += info->dirY * info->moveSpeed;
+		if (!info->worldMap[(int)(info->posX)][(int)(info->posY - info->dirX * info->moveSpeed * -1)])
+			info->posY += info->dirX * info->moveSpeed * -1;
 	}
-	//rotate to the left
+	//move left if no wall behind you
 	if (info->key_a)
 	{
-		//both camera direction and camera plane must be rotated
-		double oldDirX = info->dirX;
-		info->dirX = info->dirX * cos(info->rotSpeed) - info->dirY * sin(info->rotSpeed);
-		info->dirY = oldDirX * sin(info->rotSpeed) + info->dirY * cos(info->rotSpeed);
-		double oldPlaneX = info->planeX;
-		info->planeX = info->planeX * cos(info->rotSpeed) - info->planeY * sin(info->rotSpeed);
-		info->planeY = oldPlaneX * sin(info->rotSpeed) + info->planeY * cos(info->rotSpeed);
+		if (!info->worldMap[(int)(info->posX - info->dirY * info->moveSpeed)][(int)(info->posY)])
+			info->posX -= info->dirY * info->moveSpeed;
+		if (!info->worldMap[(int)(info->posX)][(int)(info->posY - info->dirX * info->moveSpeed * -1)])
+			info->posY -= info->dirX * info->moveSpeed * -1;
 	}
 	//rotate to the right
 	if (info->key_right)
