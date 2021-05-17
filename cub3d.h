@@ -46,6 +46,8 @@ typedef struct	s_info
 	int		key_w;
 	int		key_s;
 	int		key_d;
+	int		key_left;
+	int		key_right;
 	int		key_esc;
 	t_img	img;
 	int		buf[height][width];

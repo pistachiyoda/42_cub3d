@@ -397,6 +397,28 @@ void	key_update(t_info *info)
 		info->planeX = info->planeX * cos(info->rotSpeed) - info->planeY * sin(info->rotSpeed);
 		info->planeY = oldPlaneX * sin(info->rotSpeed) + info->planeY * cos(info->rotSpeed);
 	}
+	//rotate to the right
+	if (info->key_right)
+	{
+		//both camera direction and camera plane must be rotated
+		double oldDirX = info->dirX;
+		info->dirX = info->dirX * cos(-info->rotSpeed) - info->dirY * sin(-info->rotSpeed);
+		info->dirY = oldDirX * sin(-info->rotSpeed) + info->dirY * cos(-info->rotSpeed);
+		double oldPlaneX = info->planeX;
+		info->planeX = info->planeX * cos(-info->rotSpeed) - info->planeY * sin(-info->rotSpeed);
+		info->planeY = oldPlaneX * sin(-info->rotSpeed) + info->planeY * cos(-info->rotSpeed);
+	}
+	//rotate to the left
+	if (info->key_left)
+	{
+		//both camera direction and camera plane must be rotated
+		double oldDirX = info->dirX;
+		info->dirX = info->dirX * cos(info->rotSpeed) - info->dirY * sin(info->rotSpeed);
+		info->dirY = oldDirX * sin(info->rotSpeed) + info->dirY * cos(info->rotSpeed);
+		double oldPlaneX = info->planeX;
+		info->planeX = info->planeX * cos(info->rotSpeed) - info->planeY * sin(info->rotSpeed);
+		info->planeY = oldPlaneX * sin(info->rotSpeed) + info->planeY * cos(info->rotSpeed);
+	}
 	if (info->key_esc)
 		exit(0);
 }
@@ -413,6 +435,10 @@ int		key_press(int key, t_info *info)
 		info->key_s = 1;
 	else if (key == K_D)
 		info->key_d = 1;
+	else if (key == K_AR_L)
+		info->key_left = 1;
+	else if (key == K_AR_R)
+		info->key_right = 1;
 	return (0);
 }
 
@@ -428,6 +454,10 @@ int		key_release(int key, t_info *info)
 		info->key_s = 0;
 	else if (key == K_D)
 		info->key_d = 0;
+	else if (key == K_AR_L)
+		info->key_left = 0;
+	else if (key == K_AR_R)
+		info->key_right = 0;
 	return (0);
 }
 
