@@ -1,5 +1,13 @@
 #include "cub3d.h"
 #include <stdio.h>
+
+int			close_window(t_info *info)
+{
+	mlx_destroy_window(info->mlx, info->win);
+	exit(1);
+	return(1);
+}
+
 int	main(void)
 {
 	t_info info;
@@ -82,6 +90,7 @@ int	main(void)
 	
 	mlx_loop_hook(info.mlx, &main_loop, &info);
 	mlx_hook(info.win, X_EVENT_KEY_PRESS, 0, &key_press, &info);
+	mlx_hook(info.win, 17, 1L<<17, close_window, &info);
 	mlx_hook(info.win, X_EVENT_KEY_RELEASE, 0, &key_release, &info);
 
 	mlx_loop(info.mlx);

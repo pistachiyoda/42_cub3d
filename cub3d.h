@@ -1,6 +1,6 @@
 #ifndef CUB3D_H
 #define CUB3D_H
-#include "mlx/mlx.h"
+#include "./mlx/mlx.h"
 #include "key_macos.h"
 #include <math.h>
 #include <stdlib.h>
@@ -66,4 +66,5 @@ void	load_texture(t_info *info);
 int cntSprites(t_info info);
 t_sprite *setSprite(int cntSprites, t_info info);
 void initSpriteOrder(t_info *info);
+int			close_window(t_info *info);
 #endif
