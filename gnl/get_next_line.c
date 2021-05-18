@@ -6,7 +6,7 @@
 /*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/11 00:54:36 by fmai              #+#    #+#             */
-/*   Updated: 2021/05/18 20:06:04 by fmai             ###   ########.fr       */
+/*   Updated: 2021/05/19 01:57:28 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int			make_save(char **save, int fd, int index)
 	int		i;
 	char	*tmp;
 
-	new_save_len = ft_strlen(save[fd]) - index;
+	new_save_len = ft_strlen_gnl(save[fd]) - index;
 	if (!(tmp = (char *)malloc(sizeof(char) * new_save_len)))
 		return (0);
 	i = 0;
@@ -55,7 +55,7 @@ int			handle_save(char **save, int fd, char **line)
 
 	if (!save[fd])
 	{
-		if (!(*line = ft_strdup("")))
+		if (!(*line = ft_strdup_gnl("")))
 			return (handle_error(NULL, NULL));
 		return (0);
 	}
@@ -67,7 +67,7 @@ int			handle_save(char **save, int fd, char **line)
 			return (handle_error(NULL, save[fd]));
 		return (1);
 	}
-	if (!(*line = ft_strdup(save[fd])))
+	if (!(*line = ft_strdup_gnl(save[fd])))
 		return (handle_error(NULL, save[fd]));
 	free(save[fd]);
 	save[fd] = NULL;
@@ -96,7 +96,7 @@ int			get_next_line(int fd, char **line)
 		if (buf_cnt == -1)
 			return (handle_error(buf, save[fd]));
 		if (!save[fd])
-			if (!(save[fd] = ft_strdup("")))
+			if (!(save[fd] = ft_strdup_gnl("")))
 				return (handle_error(buf, NULL));
 		if (!(tmp = ft_strnjoin(save[fd], buf, buf_cnt)))
 			return (handle_error(buf, save[fd]));

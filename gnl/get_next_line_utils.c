@@ -6,13 +6,13 @@
 /*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/11 00:55:37 by fmai              #+#    #+#             */
-/*   Updated: 2021/05/18 20:06:52 by fmai             ###   ########.fr       */
+/*   Updated: 2021/05/19 01:57:00 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-size_t		ft_strlen(char *str)
+size_t		ft_strlen_gnl(char *str)
 {
 	size_t cnt;
 
@@ -29,7 +29,7 @@ size_t		ft_strlen(char *str)
 	return (cnt);
 }
 
-char		*ft_strdup(char *src)
+char		*ft_strdup_gnl(char *src)
 {
 	int		str_cnt;
 	char	*malloc_p;
