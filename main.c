@@ -8,7 +8,7 @@ int			close_window(t_info *info)
 	return(1);
 }
 
-int	main(void)
+int	main(int argc, char **argv)
 {
 	t_info info;
 	info.mlx = mlx_init();
@@ -38,6 +38,8 @@ int	main(void)
 											{2,0,0,0,0,0,0,0,0,3},
 											{4,4,4,4,4,4,4,4,4,4}
 										};
+	printf("argv[1] = %s\n", argv[1]);
+	read_config(&info, argv[1]);
 	int x = 0;
 	while (x < mapWidth)
 	{
@@ -51,13 +53,13 @@ int	main(void)
 	}
 
 	info.cntSprites = cntSprites(info);
-	printf("info.cntSprite = %d\n", info.cntSprites);
+	printf("info.resolution_x = %d\n info.resolution_y = %d\n", info.resolution_x, info.resolution_y);
 	info.sprites = setSprite(info.cntSprites, info);
 	initSpriteOrder(&info);
 
-	for (int i = 0; i < height; i++)
+	for (int i = 0; i < info.resolution_y; i++)
 	{
-		for (int j = 0; j < width; j++)
+		for (int j = 0; j < info.resolution_x; j++)
 		{
 			info.buf[i][j] = 0;
 		}
@@ -83,9 +85,13 @@ int	main(void)
 	info.moveSpeed = 0.05;
 	info.rotSpeed = 0.05;
 	
-	info.win = mlx_new_window(info.mlx, width, height, "mlx");
+	// int screen_width;
+	// int screen_height;
+	// mlx_get_screen_size(info.mlx,&screen_width, &screen_height);
+	
+	info.win = mlx_new_window(info.mlx, info.resolution_x, info.resolution_y, "mlx");
 
-	info.img.img = mlx_new_image(info.mlx, width, height);
+	info.img.img = mlx_new_image(info.mlx, info.resolution_x, info.resolution_y);
 	info.img.data = (int *)mlx_get_data_addr(info.img.img, &info.img.bpp, &info.img.size_l, &info.img.endian);
 	
 	mlx_loop_hook(info.mlx, &main_loop, &info);

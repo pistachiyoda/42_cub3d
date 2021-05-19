@@ -123,11 +123,11 @@ void	sortSprites(int *order, double *dist, int amount)
 
 void	draw(t_info *info)
 {
-	for (int y = 0; y < height; y++)
+	for (int y = 0; y < info->resolution_y; y++)
 	{
-		for (int x = 0; x < width; x++)
+		for (int x = 0; x < info->resolution_x; x++)
 		{
-			info->img.data[y * width + x] = info->buf[y][x];
+			info->img.data[y * info->resolution_x + x] = info->buf[y][x];
 		}
 	}
 	mlx_put_image_to_window(info->mlx, info->win, info->img.img, 0, 0);
@@ -136,7 +136,7 @@ void	draw(t_info *info)
 void	calc(t_info *info)
 {
 	//FLOOR CASTING
-	for(int y = height / 2 + 1; y < height; ++y)
+	for(int y = info->resolution_y / 2 + 1; y < info->resolution_y; ++y)
 	{
 		// rayDir for leftmost ray (x = 0) and rightmost ray (x = w)
 		float rayDirX0 = info->dirX - info->planeX;
@@ -144,20 +144,20 @@ void	calc(t_info *info)
 		float rayDirX1 = info->dirX + info->planeX;
 		float rayDirY1 = info->dirY + info->planeY;
 		// Current y position compared to the center of the screen (the horizon)
-		int p = y - height / 2;
+		int p = y - info->resolution_y / 2;
 		// Vertical position of the camera.
-		float posZ = 0.5 * height;
+		float posZ = 0.5 * info->resolution_y;
 		// Horizontal distance from the camera to the floor for the current row.
 		// 0.5 is the z position exactly in the middle between floor and ceiling.
 		float rowDistance = posZ / p;
 		// calculate the real world step vector we have to add for each x (parallel to camera plane)
 		// adding step by step avoids multiplications with a weight in the inner loop
-		float floorStepX = rowDistance * (rayDirX1 - rayDirX0) / width;
-		float floorStepY = rowDistance * (rayDirY1 - rayDirY0) / width;
+		float floorStepX = rowDistance * (rayDirX1 - rayDirX0) / info->resolution_x;
+		float floorStepY = rowDistance * (rayDirY1 - rayDirY0) / info->resolution_x;
 		// real world coordinates of the leftmost column. This will be updated as we step to the right.
 		float floorX = info->posX + rowDistance * rayDirX0;
 		float floorY = info->posY + rowDistance * rayDirY0;
-		for(int x = 0; x < width; ++x)
+		for(int x = 0; x < info->resolution_x; ++x)
 		{
 			// the cell coord is simply got from the integer parts of floorX and floorY
 			int cellX = (int)(floorX);
@@ -175,14 +175,14 @@ void	calc(t_info *info)
 			//ceiling (symmetrical, at height - y - 1 instead of y)
 			color = 0x0000FF00;
 			color = (color >> 1) & 8355711; // make a bit darker
-			info->buf[height - y - 1][x] = color;
+			info->buf[info->resolution_y - y - 1][x] = color;
 		}
 	}
 	// WALL CASTING
-	for(int x = 0; x < width; x++)
+	for(int x = 0; x < info->resolution_x; x++)
 	{
 		//calculate ray position and direction
-		double cameraX = 2 * x / (double)width - 1; //x-coordinate in camera space
+		double cameraX = 2 * x / (double)info->resolution_x - 1; //x-coordinate in camera space
 		double rayDirX = info->dirX + info->planeX * cameraX;
 		double rayDirY = info->dirY + info->planeY * cameraX;
 		//which box of the map we're in
@@ -227,15 +227,15 @@ void	calc(t_info *info)
 			//jump to next map square, OR in x-direction, OR in y-direction
 			if(sideDistX < sideDistY)
 			{
-			sideDistX += deltaDistX;
-			mapX += stepX;
-			side = 0;
+				sideDistX += deltaDistX;
+				mapX += stepX;
+				side = 0;
 			}
 			else
 			{
-			sideDistY += deltaDistY;
-			mapY += stepY;
-			side = 1;
+				sideDistY += deltaDistY;
+				mapY += stepY;
+				side = 1;
 			}
 			//Check if ray has hit a wall
 			if(info->worldMap[mapX][mapY] > 0 && info->worldMap[mapX][mapY] != 9) hit = 1;
@@ -244,12 +244,12 @@ void	calc(t_info *info)
 		if(side == 0) perpWallDist = (mapX - info->posX + (1 - stepX) / 2) / rayDirX;
 		else          perpWallDist = (mapY - info->posY + (1 - stepY) / 2) / rayDirY;
 		//Calculate height of line to draw on screen
-		int lineHeight = (int)(height / perpWallDist);
+		int lineHeight = (int)(info->resolution_y / perpWallDist);
 		//calculate lowest and highest pixel to fill in current stripe
-		int drawStart = -lineHeight / 2 + height / 2;
+		int drawStart = -lineHeight / 2 + info->resolution_y / 2;
 		if(drawStart < 0) drawStart = 0;
-		int drawEnd = lineHeight / 2 + height / 2;
-		if(drawEnd >= height) drawEnd = height - 1;
+		int drawEnd = lineHeight / 2 + info->resolution_y / 2;
+		if(drawEnd >= info->resolution_y) drawEnd = info->resolution_y - 1;
 		//texturing calculations
 		int texNum = info->worldMap[mapX][mapY] - 1; //1 subtracted from it so that texture 0 can be used!
 		//calculate value of wallX
@@ -265,7 +265,7 @@ void	calc(t_info *info)
 		// How much to increase the texture coordinate per screen pixel
 		double step = 1.0 * texHeight / lineHeight;
 		// Starting texture coordinate
-		double texPos = (drawStart - height / 2 + lineHeight / 2) * step;
+		double texPos = (drawStart - info->resolution_y / 2 + lineHeight / 2) * step;
 		for(int y = drawStart; y < drawEnd; y++)
 		{
 			// Cast the texture coordinate to integer, and mask with (texHeight - 1) in case of overflow
@@ -306,7 +306,7 @@ void	calc(t_info *info)
 		double transformX = invDet * (info->dirY * spriteX - info->dirX * spriteY);
 		double transformY = invDet * (-info->planeY * spriteX + info->planeX * spriteY); //this is actually the depth inside the screen, that what Z is in 3D, the distance of sprite to player, matching sqrt(spriteDistance[i])
 
-		int spriteScreenX = (int)((width / 2) * (1 + transformX / transformY));
+		int spriteScreenX = (int)((info->resolution_x / 2) * (1 + transformX / transformY));
 
 		//parameters for scaling and moving the sprites
 		#define uDiv 1
@@ -315,19 +315,19 @@ void	calc(t_info *info)
 		int vMoveScreen = (int)(vMove / transformY);
 
 		//calculate height of the sprite on screen
-		int spriteHeight = (int)fabs((height / transformY) / vDiv); //using "transformY" instead of the real distance prevents fisheye
+		int spriteHeight = (int)fabs((info->resolution_y / transformY) / vDiv); //using "transformY" instead of the real distance prevents fisheye
 		//calculate lowest and highest pixel to fill in current stripe
-		int drawStartY = -spriteHeight / 2 + height / 2 + vMoveScreen;
+		int drawStartY = -spriteHeight / 2 + info->resolution_y / 2 + vMoveScreen;
 		if(drawStartY < 0) drawStartY = 0;
-		int drawEndY = spriteHeight / 2 + height / 2 + vMoveScreen;
-		if(drawEndY >= height) drawEndY = height - 1;
+		int drawEndY = spriteHeight / 2 + info->resolution_y / 2 + vMoveScreen;
+		if(drawEndY >= info->resolution_y) drawEndY = info->resolution_y - 1;
 
 		//calculate width of the sprite
-		int spriteWidth = (int)fabs((height / transformY) / uDiv);
+		int spriteWidth = (int)fabs((info->resolution_y / transformY) / uDiv);
 		int drawStartX = -spriteWidth / 2 + spriteScreenX;
 		if(drawStartX < 0) drawStartX = 0;
 		int drawEndX = spriteWidth / 2 + spriteScreenX;
-		if(drawEndX >= width) drawEndX = width - 1;
+		if(drawEndX >= info->resolution_x) drawEndX = info->resolution_x - 1;
 
 		//loop through every vertical stripe of the sprite on screen
 		for(int stripe = drawStartX; stripe < drawEndX; stripe++)
@@ -338,10 +338,10 @@ void	calc(t_info *info)
 			//2) it's on the screen (left)
 			//3) it's on the screen (right)
 			//4) ZBuffer, with perpendicular distance
-			if(transformY > 0 && stripe > 0 && stripe < width && transformY < info->zBuffer[stripe])
+			if(transformY > 0 && stripe > 0 && stripe < info->resolution_x && transformY < info->zBuffer[stripe])
 			for(int y = drawStartY; y < drawEndY; y++) //for every pixel of the current stripe
 			{
-				int d = (y-vMoveScreen) * 256 - height * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
+				int d = (y-vMoveScreen) * 256 - info->resolution_y * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
 				int texY = ((d * texHeight) / spriteHeight) / 256;
 				int color = info->texture[info->sprites[info->spriteOrder[i]].texture][texWidth * texY + texX]; //get current color from the texture
 				if((color & 0x00FFFFFF) != 0) info->buf[y][stripe] = color; //paint pixel if it isn't black, black is the invisible color

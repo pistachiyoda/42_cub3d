@@ -6,7 +6,7 @@
 /*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/11 00:55:37 by fmai              #+#    #+#             */
-/*   Updated: 2021/05/19 01:57:00 by fmai             ###   ########.fr       */
+/*   Updated: 2021/05/19 02:03:14 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char		*ft_strdup_gnl(char *src)
 	char	*malloc_p;
 	int		i;
 
-	str_cnt = ft_strlen(src);
+	str_cnt = ft_strlen_gnl(src);
 	malloc_p = (char *)malloc(sizeof(char) * str_cnt + 1);
 	if (malloc_p == NULL)
 		return (NULL);
@@ -55,7 +55,7 @@ char		*ft_strnjoin(char *s1, char const *s2, int n)
 	char	*str;
 	char	*ret;
 
-	len = ft_strlen((char *)s1) + n + 1;
+	len = ft_strlen_gnl((char *)s1) + n + 1;
 	if ((str = (char *)malloc(sizeof(char) * len)) == NULL)
 		return (NULL);
 	ret = str;

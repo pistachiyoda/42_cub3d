@@ -1,6 +1,8 @@
 #ifndef CUB3D_H
 #define CUB3D_H
-#include "./mlx/mlx.h"
+#include "mlx.h"
+#include "libft.h"
+#include "get_next_line.h"
 #include "key_macos.h"
 #include <math.h>
 #include <stdlib.h>
@@ -11,8 +13,8 @@
 #define texHeight 64
 #define mapWidth 10
 #define mapHeight 10
-#define width 640
-#define height 480
+// #define width 700
+// #define height 480
 typedef struct	s_img
 {
 	void	*img;
@@ -50,8 +52,8 @@ typedef struct	s_info
 	int		key_right;
 	int		key_esc;
 	t_img	img;
-	int		buf[height][width];
-	double	zBuffer[width];
+	int		buf[480][639];
+	double	zBuffer[639];
 	int		**texture;
 	double	moveSpeed;
 	double	rotSpeed;
@@ -59,6 +61,15 @@ typedef struct	s_info
 	int	cntSprites;
 	int		*spriteOrder;
 	double	*spriteDistance;
+	int		resolution_x;
+	int		resolution_y;
+	char	*north_texture_path;
+	char	*east_texture_path;
+	char	*west_texture_path;
+	char	*south_texture_path;
+	char	*sprite_texture_path;
+	int		floor_color;
+	int		ceiling_color;
 	int worldMap[mapWidth][mapHeight];
 }				t_info;
 int	main_loop(t_info *info);
@@ -69,4 +80,5 @@ int cntSprites(t_info info);
 t_sprite *setSprite(int cntSprites, t_info info);
 void initSpriteOrder(t_info *info);
 int			close_window(t_info *info);
+int	read_config(t_info *info, char *file_path);
 #endif

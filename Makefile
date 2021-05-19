@@ -4,7 +4,7 @@ INCS = -I. -Imlx -Ignl -Ilibft
 LIBS = -Lmlx -lmlx -Lgnl -lgnl -Llibft -lft
 # CFLAGS = -Wall -Wextra -Werror -Imlx
 CFLAGS = $(INCS)
-CFILES = main.c calc.c
+CFILES = main.c calc.c ./config/config.c
 OBJ = $(CFILES:.c=.o)
 MLX = ./mlx/libmlx.dylib
 GNL = ./gnl/libgnl.a
