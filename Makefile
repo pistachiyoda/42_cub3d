@@ -19,6 +19,7 @@ $(LIBFT):
 	$(MAKE) -C ./libft/
 $(MLX):
 	$(MAKE) -C ./mlx/
+	cp $(MLX) .
 clean:
 	rm -f $(OBJ)
 fclean: clean
