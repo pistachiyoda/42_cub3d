@@ -127,7 +127,7 @@ void	draw(t_info *info)
 	{
 		for (int x = 0; x < info->resolution_x; x++)
 		{
-			info->img.data[y * info->resolution_x + x] = info->buf[y][x];
+			info->img.data[y * (info->img.size_l / 4) + x] = info->buf[y][x];
 		}
 	}
 	mlx_put_image_to_window(info->mlx, info->win, info->img.img, 0, 0);
