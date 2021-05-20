@@ -2,7 +2,7 @@
 #include <stdio.h>
 
 // map情報化からspriteの数を数える
-int cntSprites(t_info info)
+int cntSprites(t_info *info)
 {
 	int cnt;
 	int x;
@@ -15,7 +15,7 @@ int cntSprites(t_info info)
 		y = 0;
 		while(y < mapHeight)
 		{
-			if (info.worldMap[x][y] == 9)
+			if (info->worldMap[x][y] == 9)
 				cnt++;
 			y++;
 		}
@@ -25,7 +25,7 @@ int cntSprites(t_info info)
 }
 
 // map情報からSprite構造体に情報をつめる
-t_sprite *setSprite(int cntSprites, t_info info)
+t_sprite *setSprite(int cntSprites, t_info *info)
 {
 	int x;
 	int y;
@@ -40,7 +40,7 @@ t_sprite *setSprite(int cntSprites, t_info info)
 		y = 0;
 		while(y < mapHeight)
 		{
-			if (info.worldMap[x][y] == 9)
+			if (info->worldMap[x][y] == 9)
 			{
 				//spriteのx座標とy座標を計算
 				sprites[i].x = x + 0.5;

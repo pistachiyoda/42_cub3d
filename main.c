@@ -52,9 +52,9 @@ int	main(int argc, char **argv)
 		x++;
 	}
 
-	info.cntSprites = cntSprites(info);
+	info.cntSprites = cntSprites(&info);
 	printf("info.resolution_x = %d\n info.resolution_y = %d\n", info.resolution_x, info.resolution_y);
-	info.sprites = setSprite(info.cntSprites, info);
+	info.sprites = setSprite(info.cntSprites, &info);
 	initSpriteOrder(&info);
 
 	for (int i = 0; i < info.resolution_y; i++)

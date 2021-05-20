@@ -13,6 +13,8 @@
 #define texHeight 64
 #define mapWidth 10
 #define mapHeight 10
+# define SUCCESS 1
+# define FAILED -1
 // #define width 700
 // #define height 480
 typedef struct	s_img
@@ -52,8 +54,8 @@ typedef struct	s_info
 	int		key_right;
 	int		key_esc;
 	t_img	img;
-	int		buf[480][639];
-	double	zBuffer[639];
+	int		buf[950][1440];
+	double	zBuffer[1440];
 	int		**texture;
 	double	moveSpeed;
 	double	rotSpeed;
@@ -76,8 +78,8 @@ int	main_loop(t_info *info);
 int		key_press(int key, t_info *info);
 int		key_release(int key, t_info *info);
 void	load_texture(t_info *info);
-int cntSprites(t_info info);
-t_sprite *setSprite(int cntSprites, t_info info);
+int cntSprites(t_info *info);
+t_sprite *setSprite(int cntSprites, t_info *info);
 void initSpriteOrder(t_info *info);
 int			close_window(t_info *info);
 int	read_config(t_info *info, char *file_path);

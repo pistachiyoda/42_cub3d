@@ -26,15 +26,20 @@ int ft_strcmp(char *a, char *b)
 int handle_resolution(t_info *info, char *line)
 {
 	char	**parts;
+	int screen_x;
+	int screen_y;
+	int	config_x;
+	int config_y;
 
-
-	printf("fff\n");
 	parts = ft_split(line, ' ');
-	if ((info->resolution_x = ft_atoi(parts[1])) <= 0)
-		return -1;
-	if ((info->resolution_y = ft_atoi(parts[2])) <= 0)
-		return -1;
-	return 1;
+	config_x = ft_atoi(parts[1]);
+	config_y = ft_atoi(parts[2]);
+	if (config_x <= 0 || config_y <= 0)
+		return (FAILED);
+	mlx_get_screen_size(info->mlx,&screen_x, &screen_y);
+	info->resolution_x = screen_x < config_x ? screen_x : config_x;
+	info->resolution_y = screen_y < config_y ? screen_y : config_y; 
+	return (SUCCESS);
 }
 
 int handle_info(t_info *info, char *line)
