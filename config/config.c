@@ -35,7 +35,7 @@ int set_buf(t_info *info)
 		i++;
 	}
 	printf("i = %d\n", i);
-	info->zBuffer = (double *)ft_calloc(info->resolution_y, sizeof(double));
+	info->zBuffer = (double *)ft_calloc(info->resolution_x, sizeof(double));
 	return (SUCCESS);
 }
 
