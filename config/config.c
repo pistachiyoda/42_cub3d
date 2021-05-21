@@ -23,6 +23,22 @@ int ft_strcmp(char *a, char *b)
 	}
 }
 
+int set_buf(t_info *info)
+{
+	int i;
+	
+	info->buf = (int **)ft_calloc(info->resolution_y, sizeof(int *));
+	i = 0;
+	while (i < info->resolution_y)
+	{
+		info->buf[i] = (int *)ft_calloc(info->resolution_x, sizeof(int));
+		i++;
+	}
+	printf("i = %d\n", i);
+	info->zBuffer = (double *)ft_calloc(info->resolution_y, sizeof(double));
+	return (SUCCESS);
+}
+
 int handle_resolution(t_info *info, char *line)
 {
 	char	**parts;
@@ -39,6 +55,7 @@ int handle_resolution(t_info *info, char *line)
 	mlx_get_screen_size(info->mlx,&screen_x, &screen_y);
 	info->resolution_x = screen_x < config_x ? screen_x : config_x;
 	info->resolution_y = screen_y < config_y ? screen_y : config_y; 
+	set_buf(info);
 	return (SUCCESS);
 }
 

@@ -15,8 +15,6 @@
 #define mapHeight 10
 # define SUCCESS 1
 # define FAILED -1
-// #define width 700
-// #define height 480
 typedef struct	s_img
 {
 	void	*img;
@@ -54,8 +52,8 @@ typedef struct	s_info
 	int		key_right;
 	int		key_esc;
 	t_img	img;
-	int		buf[950][1440];
-	double	zBuffer[1440];
+	int		**buf;
+	double	*zBuffer;
 	int		**texture;
 	double	moveSpeed;
 	double	rotSpeed;
