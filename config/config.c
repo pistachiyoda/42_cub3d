@@ -82,31 +82,31 @@ int handle_resolution(t_info *info, char *line)
 	return (SUCCESS);
 }
 
-// int color_text_to_color_num(char *color_text)
-// {
-// 	char **color_text_parts;
-// 	int color_num;
+int color_text_to_color_num(char *color_text)
+{
+	char **color_text_parts;
+	int color_num;
 
-// 	color_text_parts = ft_split(color_text, ',');
+	color_text_parts = ft_split(color_text, ',');
 
-// 	color_num = ft_atoi(color_text_parts[0]);
-// 	color_num = (color_num << 8) + ft_atoi(color_text_parts[1]);
-// 	color_num = (color_num << 8) + ft_atoi(color_text_parts[2]);
+	color_num = ft_atoi(color_text_parts[0]);
+	color_num = (color_num << 8) + ft_atoi(color_text_parts[1]);
+	color_num = (color_num << 8) + ft_atoi(color_text_parts[2]);
 
-// 	return (color_num);
-// }
+	return (color_num);
+}
 
-// int handle_floor(t_info *info, char *color_text)
-// {
-// 	info->floor_color = color_text_to_color_num(color_text);
-// 	return (SUCCESS);
-// }
+int handle_floor(t_info *info, char *color_text)
+{
+	info->floor_color = color_text_to_color_num(color_text);
+	return (SUCCESS);
+}
 
-// int handle_ceiling(t_info *info, char *color_text)
-// {
-// 	info->ceiling_color = color_text_to_color_num(color_text);
-// 	return (SUCCESS);
-// }
+int handle_ceiling(t_info *info, char *color_text)
+{
+	info->ceiling_color = color_text_to_color_num(color_text);
+	return (SUCCESS);
+}
 
 int handle_info(t_info *info, char *line)
 {
@@ -134,10 +134,10 @@ int handle_info(t_info *info, char *line)
 		return handle_texture(info, parts[1], 3);
 	if (ft_strcmp(parts[0], "S"))
 		return handle_texture(info, parts[1], 4);
-	// if (ft_strcmp(parts[0], "F"))
-	// 	return handle_floor(info, parts[1]);
-	// if (ft_strcmp(parts[0], "C"))
-	// 	return handle_ceiling(info, parts[1]);
+	if (ft_strcmp(parts[0], "F"))
+		return handle_floor(info, parts[1]);
+	if (ft_strcmp(parts[0], "C"))
+		return handle_ceiling(info, parts[1]);
 	return (SUCCESS);
 }
 

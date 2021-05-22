@@ -170,10 +170,9 @@ void	calc(t_info *info)
 	
 			int color;
 			// floor
-			color = 0x00FF0000;
-			info->buf[y][x] = color;
+			info->buf[y][x] = info->floor_color;
 			//ceiling (symmetrical, at height - y - 1 instead of y)
-			color = 0x0000FF00;
+			color = info->ceiling_color;
 			color = (color >> 1) & 8355711; // make a bit darker
 			info->buf[info->resolution_y - y - 1][x] = color;
 		}
