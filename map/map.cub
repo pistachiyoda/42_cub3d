@@ -1,9 +1,9 @@
-R 639 480
-NO ./texture/colorstone.xpm
-SO ./texture/eagle.xpm
-WE ./texture/wood.xpm
-EA ./texture/bluestone.xpm
-S ./texture/pillar.xpm
+R 500 1500
+NO ./textures/kita.xpm
+SO ./textures/minami.xpm
+WE ./textures/nishi.xpm
+EA ./textures/higashi.xpm
+S ./textures/barrel.xpm
 F 0,255,0
 C 0,255,255
 

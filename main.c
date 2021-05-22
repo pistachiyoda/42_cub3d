@@ -65,8 +65,6 @@ int	main(int argc, char **argv)
 		}
 	}
 
-	load_texture(&info);
-
 	info.moveSpeed = 0.05;
 	info.rotSpeed = 0.05;
 	

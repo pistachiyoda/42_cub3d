@@ -43,6 +43,7 @@ void	load_image(t_info *info, int *texture, char *path, t_img *img)
 {
 	img->img = mlx_xpm_file_to_image(info->mlx, path, &img->img_width, &img->img_height);
 	img->data = (int *)mlx_get_data_addr(img->img, &img->bpp, &img->size_l, &img->endian);
+	
 	for (int y = 0; y < img->img_height; y++)
 	{
 		for (int x = 0; x < img->img_width; x++)
@@ -53,33 +54,13 @@ void	load_image(t_info *info, int *texture, char *path, t_img *img)
 	mlx_destroy_image(info->mlx, img->img);
 }
 
-int	load_texture(t_info *info)
+int handle_texture(t_info *info, char*file_path, int direction)
 {
 	t_img	img;
 
-	if (!(info->texture = (int **)malloc(sizeof(int *) * 5)))
-		return (FAILED);
-	for (int i = 0; i < 5; i++)
-	{
-		if (!(info->texture[i] = (int *)malloc(sizeof(int) * (texHeight * texWidth))))
-			return (FAILED);
-	}
-	for (int i = 0; i < 5; i++)
-	{
-		for (int j = 0; j < texHeight * texWidth; j++)
-			info->texture[i][j] = 0;
-	}
-	load_image(info, info->texture[0], "textures/kita.xpm", &img);
-	load_image(info, info->texture[1], "textures/nishi.xpm", &img);
-	load_image(info, info->texture[2], "textures/higashi.xpm", &img);
-	load_image(info, info->texture[3], "textures/minami.xpm", &img);
-	load_image(info, info->texture[4], "textures/colorstone.xpm", &img);
+	load_image(info, info->texture[direction], file_path, &img);
 	return (SUCCESS);
 }
-// int handle_texture(t_info *info, char*line)
-// {
-
-// }
 
 int handle_resolution(t_info *info, char *line)
 {
@@ -101,6 +82,32 @@ int handle_resolution(t_info *info, char *line)
 	return (SUCCESS);
 }
 
+// int color_text_to_color_num(char *color_text)
+// {
+// 	char **color_text_parts;
+// 	int color_num;
+
+// 	color_text_parts = ft_split(color_text, ',');
+
+// 	color_num = ft_atoi(color_text_parts[0]);
+// 	color_num = (color_num << 8) + ft_atoi(color_text_parts[1]);
+// 	color_num = (color_num << 8) + ft_atoi(color_text_parts[2]);
+
+// 	return (color_num);
+// }
+
+// int handle_floor(t_info *info, char *color_text)
+// {
+// 	info->floor_color = color_text_to_color_num(color_text);
+// 	return (SUCCESS);
+// }
+
+// int handle_ceiling(t_info *info, char *color_text)
+// {
+// 	info->ceiling_color = color_text_to_color_num(color_text);
+// 	return (SUCCESS);
+// }
+
 int handle_info(t_info *info, char *line)
 {
 	char **parts;
@@ -116,11 +123,22 @@ int handle_info(t_info *info, char *line)
 		return 1;
 	}
 	if (ft_strcmp(parts[0], "R"))
-	{
-		printf("eee\n");
 		return handle_resolution(info, line);
-	}
-	return 1;
+	if (ft_strcmp(parts[0], "NO"))
+		return handle_texture(info, parts[1], 0);
+	if (ft_strcmp(parts[0], "WE"))
+		return handle_texture(info, parts[1], 1);
+	if (ft_strcmp(parts[0], "EA"))
+		return handle_texture(info, parts[1], 2);
+	if (ft_strcmp(parts[0], "SO"))
+		return handle_texture(info, parts[1], 3);
+	if (ft_strcmp(parts[0], "S"))
+		return handle_texture(info, parts[1], 4);
+	// if (ft_strcmp(parts[0], "F"))
+	// 	return handle_floor(info, parts[1]);
+	// if (ft_strcmp(parts[0], "C"))
+	// 	return handle_ceiling(info, parts[1]);
+	return (SUCCESS);
 }
 
 int handle_map(t_info *info, char *line)
@@ -132,14 +150,13 @@ int info_completed(t_info *info)
 {
 	if (
 		info->resolution_x != -1 &&
-		info->resolution_y != -1 
-		//&&
-		// info->north_texture_path != NULL &&
-		// info->east_texture_path != NULL &&
-		// info->west_texture_path != NULL &&
-		// info->south_texture_path != NULL &&
-		// info->floor_color != -1 &&
-		// info->ceiling_color != -1
+		info->resolution_y != -1 &&
+		info->north_texture_path != NULL &&
+		info->east_texture_path != NULL &&
+		info->west_texture_path != NULL &&
+		info->south_texture_path != NULL &&
+		info->floor_color != -1 &&
+		info->ceiling_color != -1
 		)
 		return 1;
 	return 0;

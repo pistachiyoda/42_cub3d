@@ -54,7 +54,7 @@ typedef struct	s_info
 	t_img	img;
 	int		**buf;
 	double	*zBuffer;
-	int		**texture;
+	int		texture[5][4096];
 	double	moveSpeed;
 	double	rotSpeed;
 	t_sprite *sprites;
