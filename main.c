@@ -31,7 +31,7 @@ int	main(int argc, char **argv)
 											{2,0,0,0,0,0,0,0,0,3},
 											{2,0,0,0,0,0,0,0,0,3},
 											{2,0,0,0,0,0,0,0,0,3},
-											{2,0,0,0,9,0,0,0,0,3},
+											{2,0,0,0,5,0,0,0,0,3},
 											{2,0,0,0,0,0,0,0,0,3},
 											{2,0,0,0,0,0,0,0,0,3},
 											{2,0,0,0,0,0,0,0,0,3},
@@ -62,21 +62,6 @@ int	main(int argc, char **argv)
 		for (int j = 0; j < info.resolution_x; j++)
 		{
 			info.buf[i][j] = 0;
-		}
-	}
-
-	if (!(info.texture = (int **)malloc(sizeof(int *) * 11)))
-		return (-1);
-	for (int i = 0; i < 11; i++)
-	{
-		if (!(info.texture[i] = (int *)malloc(sizeof(int) * (texHeight * texWidth))))
-			return (-1);
-	}
-	for (int i = 0; i < 11; i++)
-	{
-		for (int j = 0; j < texHeight * texWidth; j++)
-		{
-			info.texture[i][j] = 0;
 		}
 	}
 

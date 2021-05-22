@@ -75,7 +75,7 @@ typedef struct	s_info
 int	main_loop(t_info *info);
 int		key_press(int key, t_info *info);
 int		key_release(int key, t_info *info);
-void	load_texture(t_info *info);
+int	load_texture(t_info *info);
 int cntSprites(t_info *info);
 t_sprite *setSprite(int cntSprites, t_info *info);
 void initSpriteOrder(t_info *info);
