@@ -15,7 +15,7 @@ int cntSprites(t_info *info)
 		y = 0;
 		while(y < mapHeight)
 		{
-			if (info->worldMap[x][y] == 9)
+			if (info->worldMap[x][y] == 5)
 				cnt++;
 			y++;
 		}
@@ -40,12 +40,12 @@ t_sprite *setSprite(int cntSprites, t_info *info)
 		y = 0;
 		while(y < mapHeight)
 		{
-			if (info->worldMap[x][y] == 9)
+			if (info->worldMap[x][y] == 5)
 			{
 				//spriteのx座標とy座標を計算
 				sprites[i].x = x + 0.5;
 				sprites[i].y = y + 0.5;
-				sprites[i].texture = 8;
+				sprites[i].texture = 4;
 				i++;
 			}
 			y++;
@@ -237,7 +237,7 @@ void	calc(t_info *info)
 				side = 1;
 			}
 			//Check if ray has hit a wall
-			if(info->worldMap[mapX][mapY] > 0 && info->worldMap[mapX][mapY] != 9) hit = 1;
+			if(info->worldMap[mapX][mapY] > 0 && info->worldMap[mapX][mapY] != 5) hit = 1;
 		}
 		//Calculate distance of perpendicular ray (Euclidean distance will give fisheye effect!)
 		if(side == 0) perpWallDist = (mapX - info->posX + (1 - stepX) / 2) / rayDirX;
@@ -287,6 +287,8 @@ void	calc(t_info *info)
 		info->spriteOrder[i] = i;
 		info->spriteDistance[i] = ((info->posX - info->sprites[i].x) * (info->posX - info->sprites[i].x) + (info->posY - info->sprites[i].y) * (info->posY - info->sprites[i].y)); //sqrt not taken, unneeded
 	}
+	// printf("test\n");
+	// exit(1);
 	sortSprites(info->spriteOrder, info->spriteDistance, info->cntSprites);
 	//after sorting the sprites, do the projection and draw them
 	for(int i = 0; i < info->cntSprites; i++)
