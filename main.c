@@ -24,37 +24,9 @@ int	main(int argc, char **argv)
 	info.key_s = 0;
 	info.key_d = 0;
 	info.key_esc = 0;
+	info.cntSprites = 0;
 
-	int	worldMap[mapWidth][mapHeight] =
-										{
-											{1,1,1,1,1,1,1,1,1,1},
-											{2,0,0,0,0,0,0,0,0,3},
-											{2,0,0,0,0,5,0,0,0,3},
-											{2,0,0,0,0,0,0,0,0,3},
-											{2,0,0,0,0,0,0,0,0,3},
-											{2,0,0,0,0,0,0,0,0,3},
-											{2,0,0,0,0,0,0,0,0,3},
-											{2,0,0,0,0,0,0,0,0,3},
-											{2,0,0,0,0,0,0,0,0,3},
-											{4,4,4,4,4,4,4,4,4,4}
-										};
-	printf("argv[1] = %s\n", argv[1]);
 	read_config(&info, argv[1]);
-	int x = 0;
-	while (x < mapWidth)
-	{
-		int y = 0;
-		while (y < mapHeight)
-		{
-			info.worldMap[x][y] = worldMap[x][y];
-			y++;
-		}
-		x++;
-	}
-
-	info.cntSprites = cntSprites(&info);
-	printf("info.resolution_x = %d\n info.resolution_y = %d\n", info.resolution_x, info.resolution_y);
-	info.sprites = setSprite(info.cntSprites, &info);
 	initSpriteOrder(&info);
 
 	for (int i = 0; i < info.resolution_y; i++)
@@ -67,10 +39,6 @@ int	main(int argc, char **argv)
 
 	info.moveSpeed = 0.05;
 	info.rotSpeed = 0.05;
-	
-	// int screen_width;
-	// int screen_height;
-	// mlx_get_screen_size(info.mlx,&screen_width, &screen_height);
 	
 	info.win = mlx_new_window(info.mlx, info.resolution_x, info.resolution_y, "mlx");
 

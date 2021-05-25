@@ -31,7 +31,6 @@ typedef struct	s_sprite
 {
 	double		x;
 	double		y;
-	int			texture;
 }				t_sprite;
 
 typedef struct	s_info
@@ -70,14 +69,14 @@ typedef struct	s_info
 	char	*sprite_texture_path;
 	int		floor_color;
 	int		ceiling_color;
-	int worldMap[mapWidth][mapHeight];
+	int 	**worldMap;
+	int		map_height;
+	int		map_width;
 }				t_info;
 int	main_loop(t_info *info);
 int		key_press(int key, t_info *info);
 int		key_release(int key, t_info *info);
 int	load_texture(t_info *info);
-int cntSprites(t_info *info);
-t_sprite *setSprite(int cntSprites, t_info *info);
 void initSpriteOrder(t_info *info);
 int			close_window(t_info *info);
 int	read_config(t_info *info, char *file_path);

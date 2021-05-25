@@ -34,7 +34,6 @@ int set_buf(t_info *info)
 		info->buf[i] = (int *)ft_calloc(info->resolution_x, sizeof(int));
 		i++;
 	}
-	printf("i = %d\n", i);
 	info->zBuffer = (double *)ft_calloc(info->resolution_x, sizeof(double));
 	return (SUCCESS);
 }
@@ -58,6 +57,14 @@ int handle_texture(t_info *info, char*file_path, int direction)
 {
 	t_img	img;
 
+	if (direction == 0)
+		info->north_texture_path = file_path;
+	if (direction == 1)
+		info->west_texture_path = file_path;
+	if (direction == 2)
+		info->east_texture_path = file_path;
+	if (direction == 3)
+		info->south_texture_path = file_path;
 	load_image(info, info->texture[direction], file_path, &img);
 	return (SUCCESS);
 }
@@ -113,13 +120,9 @@ int handle_info(t_info *info, char *line)
 	char **parts;
 	int ret;
 
-		printf("ccc\n");
-		printf("line = %s\n", line);
 	parts = ft_split(line, ' ');
-	printf("parts[0] = %s\n", parts[0]);
 	if (parts[0] == NULL)
 	{
-		printf("ddd\n");
 		return 1;
 	}
 	if (ft_strcmp(parts[0], "R"))
@@ -141,8 +144,72 @@ int handle_info(t_info *info, char *line)
 	return (SUCCESS);
 }
 
-int handle_map(t_info *info, char *line)
+int proc_map_element(char c)
 {
+	if (c == '0')
+		return (0);
+	if (c == '1')
+		return (1);
+	if (c == '2')
+		return (2);
+	if (c == ' ')
+		return (1);
+	return (0);
+}
+
+int add_sprite(t_info *info, int y, int x)
+{
+	t_sprite *new_sprites;
+	int i;
+
+	new_sprites = (t_sprite *)malloc(sizeof(t_sprite) * (info->cntSprites + 1));
+	i = 0;
+	while (i < info->cntSprites)
+	{
+		new_sprites[i] = info->sprites[i];
+		i++;
+	}
+	if (info->cntSprites != 0)
+		free(info->sprites);
+	info->sprites = new_sprites;
+	info->sprites[i].x = (double)x + 0.5;
+	info->sprites[i].y = (double)y + 0.5;
+	info->cntSprites++;
+	return (1);
+}
+
+//todo:0,1,2,N,S,E,W,space以外は弾くようなエラー処理
+int handle_map(t_info *info, char *line, int *y)
+{
+	int **new_map_array;
+	int i;
+	int line_len;
+
+	new_map_array = (int **)malloc(sizeof(int *) * ((*y) + 1));
+	i = 0;
+	while (i < *y)
+	{
+		new_map_array[i] = info->worldMap[i];
+		i++;
+	}
+	if ((*y) != 0)
+		free(info->worldMap);
+	info->worldMap = new_map_array;
+
+	i = 0;
+	line_len = ft_strlen(line);
+	info->worldMap[*y] = (int *)malloc(sizeof(int) * line_len);
+	while (i < line_len)
+	{
+		info->worldMap[*y][i] = proc_map_element(line[i]);
+		if (info->worldMap[*y][i] == 2)
+			add_sprite(info, *y, i);
+		i++;
+	}	
+	if (info->map_width < line_len)
+		info->map_width = line_len;
+	(info->map_height)++;
+	(*y)++;
 	return 1;
 }
 
@@ -179,8 +246,9 @@ int	read_config(t_info *info, char *file_path)
 	int		fd;
 	char	*line;
 	int		ret;
-	int		first_line;
 	int		info_end;
+	int 	map_width;
+	int		map_height;
 
 	init_info(info);
 	fd = open(file_path, O_RDONLY);
@@ -188,20 +256,18 @@ int	read_config(t_info *info, char *file_path)
 		return -1;
 
 	ret = -1;
+	int y = 0;
+	info->map_width = 0;
+	info->map_height = 0;
 	while (ret != 0)
 	{
 		ret = get_next_line(fd, &line);
-		if (info_completed(info))
-		{
-			printf("aaa\n");
-			handle_map(info, line);
-			return 1;
-		}
+		if (info_completed(info) && ft_strcmp(line, ""))
+			continue; // @todo mapがすでに埋まってたらエラーを出す
+		else if (info_completed(info))
+			handle_map(info, line, &y);
 		else
-		{
-			printf("bbb\n");
 			handle_info(info, line);
-		}
 	}
 	return (1);
 }

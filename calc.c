@@ -1,60 +1,6 @@
 #include "cub3d.h"
 #include <stdio.h>
 
-// map情報化からspriteの数を数える
-int cntSprites(t_info *info)
-{
-	int cnt;
-	int x;
-	int y;
-
-	cnt = 0;
-	x = 0;
-	while (x < mapWidth)
-	{
-		y = 0;
-		while(y < mapHeight)
-		{
-			if (info->worldMap[x][y] == 5)
-				cnt++;
-			y++;
-		}
-		x++;
-	}
-	return (cnt);
-}
-
-// map情報からSprite構造体に情報をつめる
-t_sprite *setSprite(int cntSprites, t_info *info)
-{
-	int x;
-	int y;
-	t_sprite *sprites;
-	int i;
-
-	x = 0;
-	i = 0;
-	sprites = malloc(cntSprites * sizeof(t_sprite));
-	while (x < mapWidth)
-	{
-		y = 0;
-		while(y < mapHeight)
-		{
-			if (info->worldMap[x][y] == 5)
-			{
-				//spriteのx座標とy座標を計算
-				sprites[i].x = x + 0.5;
-				sprites[i].y = y + 0.5;
-				sprites[i].texture = 4;
-				i++;
-			}
-			y++;
-		}
-		x++;
-	}
-	return (sprites);
-}
-
 void initSpriteOrder(t_info *info)
 {
 	info->spriteOrder = (int *)malloc(info->cntSprites * sizeof(int));
@@ -237,7 +183,7 @@ void	calc(t_info *info)
 				side = 1;
 			}
 			//Check if ray has hit a wall
-			if(info->worldMap[mapX][mapY] > 0 && info->worldMap[mapX][mapY] != 5) hit = 1;
+			if(info->worldMap[mapX][mapY] > 0) hit = 1;
 		}
 		//Calculate distance of perpendicular ray (Euclidean distance will give fisheye effect!)
 		if(side == 0) perpWallDist = (mapX - info->posX + (1 - stepX) / 2) / rayDirX;
@@ -287,8 +233,6 @@ void	calc(t_info *info)
 		info->spriteOrder[i] = i;
 		info->spriteDistance[i] = ((info->posX - info->sprites[i].x) * (info->posX - info->sprites[i].x) + (info->posY - info->sprites[i].y) * (info->posY - info->sprites[i].y)); //sqrt not taken, unneeded
 	}
-	// printf("test\n");
-	// exit(1);
 	sortSprites(info->spriteOrder, info->spriteDistance, info->cntSprites);
 	//after sorting the sprites, do the projection and draw them
 	for(int i = 0; i < info->cntSprites; i++)
@@ -344,7 +288,7 @@ void	calc(t_info *info)
 			{
 				int d = (y-vMoveScreen) * 256 - info->resolution_y * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
 				int texY = ((d * texHeight) / spriteHeight) / 256;
-				int color = info->texture[info->sprites[info->spriteOrder[i]].texture][texWidth * texY + texX]; //get current color from the texture
+				int color = info->texture[4][texWidth * texY + texX];
 				if((color & 0x00FFFFFF) != 0) info->buf[y][stripe] = color; //paint pixel if it isn't black, black is the invisible color
 			}
 		}
