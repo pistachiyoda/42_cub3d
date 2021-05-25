@@ -196,7 +196,12 @@ void	calc(t_info *info)
 		int drawEnd = lineHeight / 2 + info->resolution_y / 2;
 		if(drawEnd >= info->resolution_y) drawEnd = info->resolution_y - 1;
 		//texturing calculations
-		int texNum = info->worldMap[mapX][mapY] - 1; //1 subtracted from it so that texture 0 can be used!
+		//int texNum = info->worldMap[mapX][mapY] - 1; //1 subtracted from it so that texture 0 can be used!
+		int texNum;
+		if (side == 0 && rayDirX > 0) texNum = 0;
+		if (side == 0 && rayDirX <= 0) texNum = 1;
+		if (side == 1 && rayDirY > 0) texNum = 2;
+		if (side == 1 && rayDirY <= 0) texNum = 3;
 		//calculate value of wallX
 		double wallX; //where exactly the wall was hit
 		if (side == 0) wallX = info->posY + perpWallDist * rayDirY;
