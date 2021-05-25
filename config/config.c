@@ -178,7 +178,6 @@ int add_sprite(t_info *info, int y, int x)
 	return (1);
 }
 
-//todo:0,1,2,N,S,E,W,space以外は弾くようなエラー処理
 int handle_map(t_info *info, char *line, int *y)
 {
 	int **new_map_array;
@@ -201,6 +200,8 @@ int handle_map(t_info *info, char *line, int *y)
 	info->worldMap[*y] = (int *)malloc(sizeof(int) * line_len);
 	while (i < line_len)
 	{
+		if (!ft_strrchr(" 012NWES", line[i]))
+			return (0);
 		info->worldMap[*y][i] = proc_map_element(line[i]);
 		if (info->worldMap[*y][i] == 2)
 			add_sprite(info, *y, i);
@@ -262,12 +263,15 @@ int	read_config(t_info *info, char *file_path)
 	while (ret != 0)
 	{
 		ret = get_next_line(fd, &line);
-		if (info_completed(info) && ft_strcmp(line, ""))
-			continue; // @todo mapがすでに埋まってたらエラーを出す
-		else if (info_completed(info))
-			handle_map(info, line, &y);
-		else
+		if (!info_completed(info))
 			handle_info(info, line);
+		else if (info->worldMap != NULL && ft_strcmp(line, ""))
+			return (0);
+		else if (info_completed(info))
+		{
+			if (!handle_map(info, line, &y))
+				return (0);
+		}
 	}
 	return (1);
 }

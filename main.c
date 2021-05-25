@@ -25,8 +25,11 @@ int	main(int argc, char **argv)
 	info.key_d = 0;
 	info.key_esc = 0;
 	info.cntSprites = 0;
+	info.worldMap = NULL;
 
-	read_config(&info, argv[1]);
+	if (read_config(&info, argv[1]) != 1)
+		exit(0);
+
 	initSpriteOrder(&info);
 
 	for (int i = 0; i < info.resolution_y; i++)
