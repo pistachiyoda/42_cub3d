@@ -183,7 +183,7 @@ void	calc(t_info *info)
 				side = 1;
 			}
 			//Check if ray has hit a wall
-			if(info->worldMap[mapX][mapY] > 0) hit = 1;
+			if(info->worldMap[mapX][mapY] > 0 && info->worldMap[mapX][mapY] != 2) hit = 1;
 		}
 		//Calculate distance of perpendicular ray (Euclidean distance will give fisheye effect!)
 		if(side == 0) perpWallDist = (mapX - info->posX + (1 - stepX) / 2) / rayDirX;

@@ -204,10 +204,7 @@ int handle_map(t_info *info, char *line, int *y)
 			return (0);
 		info->worldMap[*y][i] = proc_map_element(line[i]);
 		if (info->worldMap[*y][i] == 2)
-		{
 			add_sprite(info, *y, i);
-			info->worldMap[*y][i] = 0;
-		}
 		i++;
 	}	
 	if (info->map_width < line_len)
