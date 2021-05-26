@@ -172,8 +172,8 @@ int add_sprite(t_info *info, int y, int x)
 	if (info->cntSprites != 0)
 		free(info->sprites);
 	info->sprites = new_sprites;
-	info->sprites[i].x = (double)x + 0.5;
-	info->sprites[i].y = (double)y + 0.5;
+	info->sprites[i].y = (double)x + 0.5;
+	info->sprites[i].x = (double)y + 0.5;
 	info->cntSprites++;
 	return (1);
 }
@@ -204,7 +204,10 @@ int handle_map(t_info *info, char *line, int *y)
 			return (0);
 		info->worldMap[*y][i] = proc_map_element(line[i]);
 		if (info->worldMap[*y][i] == 2)
+		{
 			add_sprite(info, *y, i);
+			info->worldMap[*y][i] = 0;
+		}
 		i++;
 	}	
 	if (info->map_width < line_len)
