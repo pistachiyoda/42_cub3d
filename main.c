@@ -8,6 +8,12 @@ int			close_window(t_info *info)
 	return(1);
 }
 
+void	end_game(int status, char *message)
+{
+	ft_putstr_fd(message, 1);
+	exit(status);
+}
+
 int	main(int argc, char **argv)
 {
 	t_info info;

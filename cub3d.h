@@ -82,4 +82,5 @@ void initSpriteOrder(t_info *info);
 int			close_window(t_info *info);
 int	read_config(t_info *info, char *file_path);
 void init_position(t_info *info);
+void end_game(int status, char *message);
 #endif
