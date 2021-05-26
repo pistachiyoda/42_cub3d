@@ -2,6 +2,8 @@
 #include <fcntl.h>
 #include "get_next_line.h"
 #include <stdio.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 
 int ft_strcmp(char *a, char *b)
 {
@@ -42,6 +44,8 @@ void	load_image(t_info *info, int *texture, char *path, t_img *img)
 {
 	img->img = mlx_xpm_file_to_image(info->mlx, path, &img->img_width, &img->img_height);
 	img->data = (int *)mlx_get_data_addr(img->img, &img->bpp, &img->size_l, &img->endian);
+	if (img->data == 0)
+		end_game(1, "load image failed");
 	
 	for (int y = 0; y < img->img_height; y++)
 	{
@@ -53,9 +57,23 @@ void	load_image(t_info *info, int *texture, char *path, t_img *img)
 	mlx_destroy_image(info->mlx, img->img);
 }
 
-int handle_texture(t_info *info, char*file_path, int direction)
+void file_exists(char *file_path)
+{
+	int ret;
+
+	ret = open(file_path, O_RDONLY);
+	if (ret == -1)
+		end_game(1, "file not exists\n");
+	close(ret);
+}
+
+void handle_texture(t_info *info, char *file_path, int direction)
 {
 	t_img	img;
+
+	if (file_path == NULL)
+		end_game(1, "invalid file path\n");
+	file_exists(file_path);
 
 	if (direction == 0)
 		info->north_texture_path = file_path;
@@ -66,10 +84,10 @@ int handle_texture(t_info *info, char*file_path, int direction)
 	if (direction == 3)
 		info->south_texture_path = file_path;
 	load_image(info, info->texture[direction], file_path, &img);
-	return (SUCCESS);
 }
 
-int handle_resolution(t_info *info, char *line)
+// @todo エラーハンドリング
+void handle_resolution(t_info *info, char *line)
 {
 	char	**parts;
 	int screen_x;
@@ -81,12 +99,11 @@ int handle_resolution(t_info *info, char *line)
 	config_x = ft_atoi(parts[1]);
 	config_y = ft_atoi(parts[2]);
 	if (config_x <= 0 || config_y <= 0)
-		return (FAILED);
+		end_game(1, "invalid resolution\n");
 	mlx_get_screen_size(info->mlx,&screen_x, &screen_y);
 	info->resolution_x = screen_x < config_x ? screen_x : config_x;
 	info->resolution_y = screen_y < config_y ? screen_y : config_y; 
 	set_buf(info);
-	return (SUCCESS);
 }
 
 int color_text_to_color_num(char *color_text)
@@ -94,8 +111,14 @@ int color_text_to_color_num(char *color_text)
 	char **color_text_parts;
 	int color_num;
 
+	if (color_text == NULL)
+		end_game(1, "color text is null\n");
+
 	color_text_parts = ft_split(color_text, ',');
 
+	if (color_text_parts[0] == NULL || color_text_parts[1] == NULL || color_text_parts[2] == NULL)
+		end_game(1, "invalid color text format\n");
+	// @todo ft_atoiに数字以外の文字列が渡るとエラーは返さず0になる
 	color_num = ft_atoi(color_text_parts[0]);
 	color_num = (color_num << 8) + ft_atoi(color_text_parts[1]);
 	color_num = (color_num << 8) + ft_atoi(color_text_parts[2]);
@@ -103,28 +126,24 @@ int color_text_to_color_num(char *color_text)
 	return (color_num);
 }
 
-int handle_floor(t_info *info, char *color_text)
+void handle_floor(t_info *info, char *color_text)
 {
 	info->floor_color = color_text_to_color_num(color_text);
-	return (SUCCESS);
 }
 
-int handle_ceiling(t_info *info, char *color_text)
+void handle_ceiling(t_info *info, char *color_text)
 {
 	info->ceiling_color = color_text_to_color_num(color_text);
-	return (SUCCESS);
 }
 
-int handle_info(t_info *info, char *line)
+void handle_info(t_info *info, char *line)
 {
 	char **parts;
 	int ret;
 
 	parts = ft_split(line, ' ');
 	if (parts[0] == NULL)
-	{
-		return 1;
-	}
+		return;
 	if (ft_strcmp(parts[0], "R"))
 		return handle_resolution(info, line);
 	if (ft_strcmp(parts[0], "NO"))
@@ -141,7 +160,7 @@ int handle_info(t_info *info, char *line)
 		return handle_floor(info, parts[1]);
 	if (ft_strcmp(parts[0], "C"))
 		return handle_ceiling(info, parts[1]);
-	return (SUCCESS);
+	end_game(1, "invalid config key\n");
 }
 
 int proc_map_element(char c)
@@ -316,7 +335,7 @@ int	read_config(t_info *info, char *file_path)
 	init_info(info);
 	fd = open(file_path, O_RDONLY);
 	if (fd == -1)
-		return -1;
+		end_game(1, "file reading error\n");
 
 	ret = -1;
 	int y = 0;
@@ -328,12 +347,9 @@ int	read_config(t_info *info, char *file_path)
 		if (!info_completed(info))
 			handle_info(info, line);
 		else if (info->worldMap != NULL && ft_strcmp(line, ""))
-			return (0);
+			end_game(1, "unexpected empty line\n");
 		else if (info_completed(info))
-		{
-			if (!handle_map(info, line, &y))
-				return (0);
-		}
+			handle_map(info, line, &y);
 	}
 	return (1);
 }
