@@ -13,12 +13,6 @@ int	main(int argc, char **argv)
 	t_info info;
 	info.mlx = mlx_init();
 
-	info.posX = 5.0;
-	info.posY = 5.5;
-	info.dirX = -1.0;
-	info.dirY = 0.0;
-	info.planeX = 0.0;
-	info.planeY = 0.66;
 	info.key_a = 0;
 	info.key_w = 0;
 	info.key_s = 0;
@@ -30,8 +24,8 @@ int	main(int argc, char **argv)
 	if (read_config(&info, argv[1]) != 1)
 		exit(0);
 
+	init_position(&info);
 	initSpriteOrder(&info);
-
 	for (int i = 0; i < info.resolution_y; i++)
 	{
 		for (int j = 0; j < info.resolution_x; j++)

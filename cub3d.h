@@ -72,6 +72,7 @@ typedef struct	s_info
 	int 	**worldMap;
 	int		map_height;
 	int		map_width;
+	char	initial_direction;
 }				t_info;
 int	main_loop(t_info *info);
 int		key_press(int key, t_info *info);
@@ -80,4 +81,5 @@ int	load_texture(t_info *info);
 void initSpriteOrder(t_info *info);
 int			close_window(t_info *info);
 int	read_config(t_info *info, char *file_path);
+void init_position(t_info *info);
 #endif
