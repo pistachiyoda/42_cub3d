@@ -152,8 +152,8 @@ int proc_map_element(char c)
 		return (1);
 	if (c == '2')
 		return (2);
-	if (c == ' ')
-		return (1);
+	if (c == ' ' || c == 'N' || c == 'E' || c == 'W' || c == 'S')
+		return (0);
 	return (0);
 }
 
@@ -176,6 +176,62 @@ int add_sprite(t_info *info, int y, int x)
 	info->sprites[i].x = (double)y + 0.5;
 	info->cntSprites++;
 	return (1);
+}
+
+void n_position(t_info *info)
+{
+	// 北
+	info->posX = info->posX + 0.5;
+	info->posY = info->posY + 0.5;
+	info->dirX = -1.0;
+	info->dirY = 0.0;
+	info->planeX = 0.0;
+	info->planeY = 0.66;
+}
+
+void e_position(t_info *info)
+{
+    // 東
+	info->posX = info->posX + 0.5;
+	info->posY = info->posY + 0.5;
+	info->dirX = 0.0;
+	info->dirY = 1.0;
+	info->planeX = 0.66;
+	info->planeY = 0.0;
+}
+
+void w_position(t_info *info)
+{
+    // 西
+	info->posX = info->posX + 0.5;
+	info->posY = info->posY + 0.5;
+	info->dirX = 0.0;
+	info->dirY = -1.0;
+	info->planeX = -0.66;
+	info->planeY = 0;
+}
+
+void s_position(t_info *info)
+{
+    // 南
+	info->posX = info->posX + 0.5;
+	info->posY = info->posY + 0.5;
+	info->dirX = 1.0;
+	info->dirY = 0.0;
+	info->planeX = 0;
+	info->planeY = -0.66;
+}
+
+void init_position(t_info *info)
+{
+	if (info->initial_direction == 'N')
+		return (n_position(info));
+	if (info->initial_direction == 'E')
+		return (e_position(info));
+	if (info->initial_direction == 'W')
+		return (w_position(info));
+	if (info->initial_direction == 'S')
+		return (s_position(info));
 }
 
 int handle_map(t_info *info, char *line, int *y)
@@ -205,6 +261,12 @@ int handle_map(t_info *info, char *line, int *y)
 		info->worldMap[*y][i] = proc_map_element(line[i]);
 		if (info->worldMap[*y][i] == 2)
 			add_sprite(info, *y, i);
+		if (ft_strrchr("NWES", line[i]))
+		{
+			info->posX = *y;
+			info->posY = i;
+			info->initial_direction = line[i];
+		}
 		i++;
 	}	
 	if (info->map_width < line_len)
