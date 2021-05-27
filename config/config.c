@@ -25,21 +25,6 @@ int ft_strcmp(char *a, char *b)
 	}
 }
 
-int set_buf(t_info *info)
-{
-	int i;
-	
-	info->buf = (int **)ft_calloc(info->resolution_y, sizeof(int *));
-	i = 0;
-	while (i < info->resolution_y)
-	{
-		info->buf[i] = (int *)ft_calloc(info->resolution_x, sizeof(int));
-		i++;
-	}
-	info->zBuffer = (double *)ft_calloc(info->resolution_x, sizeof(double));
-	return (SUCCESS);
-}
-
 void	load_image(t_info *info, int *texture, char *path, t_img *img)
 {
 	img->img = mlx_xpm_file_to_image(info->mlx, path, &img->img_width, &img->img_height);
@@ -84,26 +69,6 @@ void handle_texture(t_info *info, char *file_path, int direction)
 	if (direction == 3)
 		info->south_texture_path = file_path;
 	load_image(info, info->texture[direction], file_path, &img);
-}
-
-// @todo エラーハンドリング
-void handle_resolution(t_info *info, char *line)
-{
-	char	**parts;
-	int screen_x;
-	int screen_y;
-	int	config_x;
-	int config_y;
-
-	parts = ft_split(line, ' ');
-	config_x = ft_atoi(parts[1]);
-	config_y = ft_atoi(parts[2]);
-	if (config_x <= 0 || config_y <= 0)
-		end_game(1, "invalid resolution\n");
-	mlx_get_screen_size(info->mlx,&screen_x, &screen_y);
-	info->resolution_x = screen_x < config_x ? screen_x : config_x;
-	info->resolution_y = screen_y < config_y ? screen_y : config_y; 
-	set_buf(info);
 }
 
 int color_text_to_color_num(char *color_text)
@@ -152,8 +117,6 @@ void handle_info(t_info *info, char *line)
 	parts = ft_split(line, ' ');
 	if (parts[0] == NULL)
 		return;
-	if (ft_strcmp(parts[0], "R"))
-		return handle_resolution(info, line);
 	if (ft_strcmp(parts[0], "NO"))
 		return handle_texture(info, parts[1], 0);
 	if (ft_strcmp(parts[0], "WE"))
@@ -306,8 +269,6 @@ int handle_map(t_info *info, char *line, int *y)
 int info_completed(t_info *info)
 {
 	if (
-		info->resolution_x != -1 &&
-		info->resolution_y != -1 &&
 		info->north_texture_path != NULL &&
 		info->east_texture_path != NULL &&
 		info->west_texture_path != NULL &&
@@ -321,8 +282,8 @@ int info_completed(t_info *info)
 
 void init_info(t_info *info)
 {
-	info->resolution_x = -1;
-	info->resolution_y = -1;
+	info->resolution_x = screenWidth;
+	info->resolution_y = screenHeight;
 	info->north_texture_path = NULL;
 	info->east_texture_path = NULL;
 	info->west_texture_path = NULL;

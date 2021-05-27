@@ -13,6 +13,8 @@
 #define texHeight 64
 #define mapWidth 10
 #define mapHeight 10
+#define screenWidth 1000
+#define screenHeight 700
 # define SUCCESS 1
 # define FAILED -1
 typedef struct	s_img
@@ -51,8 +53,8 @@ typedef struct	s_info
 	int		key_right;
 	int		key_esc;
 	t_img	img;
-	int		**buf;
-	double	*zBuffer;
+	int		buf[screenHeight][screenWidth];
+	double	zBuffer[screenWidth];
 	int		texture[5][4096];
 	double	moveSpeed;
 	double	rotSpeed;
