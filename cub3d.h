@@ -62,8 +62,6 @@ typedef struct	s_info
 	int	cntSprites;
 	int		*spriteOrder;
 	double	*spriteDistance;
-	int		resolution_x;
-	int		resolution_y;
 	char	*north_texture_path;
 	char	*east_texture_path;
 	char	*west_texture_path;

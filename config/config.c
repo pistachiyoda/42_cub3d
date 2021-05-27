@@ -282,8 +282,6 @@ int info_completed(t_info *info)
 
 void init_info(t_info *info)
 {
-	info->resolution_x = screenWidth;
-	info->resolution_y = screenHeight;
 	info->north_texture_path = NULL;
 	info->east_texture_path = NULL;
 	info->west_texture_path = NULL;

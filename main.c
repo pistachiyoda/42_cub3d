@@ -32,9 +32,9 @@ int	main(int argc, char **argv)
 
 	init_position(&info);
 	initSpriteOrder(&info);
-	for (int i = 0; i < info.resolution_y; i++)
+	for (int i = 0; i < screenHeight; i++)
 	{
-		for (int j = 0; j < info.resolution_x; j++)
+		for (int j = 0; j < screenWidth; j++)
 		{
 			info.buf[i][j] = 0;
 		}
@@ -43,9 +43,9 @@ int	main(int argc, char **argv)
 	info.moveSpeed = 0.05;
 	info.rotSpeed = 0.05;
 	
-	info.win = mlx_new_window(info.mlx, info.resolution_x, info.resolution_y, "mlx");
+	info.win = mlx_new_window(info.mlx, screenWidth, screenHeight, "mlx");
 
-	info.img.img = mlx_new_image(info.mlx, info.resolution_x, info.resolution_y);
+	info.img.img = mlx_new_image(info.mlx, screenWidth, screenHeight);
 	info.img.data = (int *)mlx_get_data_addr(info.img.img, &info.img.bpp, &info.img.size_l, &info.img.endian);
 	
 	mlx_loop_hook(info.mlx, &main_loop, &info);
