@@ -1,7 +1,7 @@
 #include "cub3d.h"
 #include <stdio.h>
 
-void initSpriteOrder(t_info *info)
+void	initSpriteOrder(t_info *info)
 {
 	info->spriteOrder = (int *)malloc(info->cntSprites * sizeof(int));
 	if (!info->spriteOrder)
@@ -11,7 +11,7 @@ void initSpriteOrder(t_info *info)
 		end_game(1, "malloc failed\n");
 }
 
-typedef struct		s_pair
+typedef struct s_pair
 {
 	double	first;
 	int		second;
@@ -32,10 +32,14 @@ static int	compare(const void *first, const void *second)
 void	sort_order(t_pair *orders, int amount)
 {
 	t_pair	tmp;
+	int		i;
+	int		j;
 
-	for (int i = 0; i < amount; i++)
+	i = 0;
+	while (i < amount)
 	{
-		for (int j = 0; j < amount - 1; j++)
+		j = 0;
+		while (j < amount - 1)
 		{
 			if (orders[j].first > orders[j + 1].first)
 			{
@@ -46,109 +50,156 @@ void	sort_order(t_pair *orders, int amount)
 				orders[j + 1].first = tmp.first;
 				orders[j + 1].second = tmp.second;
 			}
+			j++;
 		}
+		i++;
 	}
 }
 
 void	sortSprites(int *order, double *dist, int amount)
 {
 	t_pair	*sprites;
+	int		i;
 
-	//std::vector<std::pair<double, int>> sprites(amount);
-	sprites = (t_pair*)malloc(sizeof(t_pair) * amount);
-	for (int i = 0; i < amount; i++)
+	sprites = (t_pair *)malloc(sizeof(t_pair) * amount);
+	i = 0;
+	while (i < amount)
 	{
 		sprites[i].first = dist[i];
 		sprites[i].second = order[i];
+		i++;
 	}
 	sort_order(sprites, amount);
-	//std::sort(sprites.begin(), sprites.end());
-	for (int i = 0; i < amount; i++)
+	i = 0;
+	while (i < amount)
 	{
 		dist[i] = sprites[amount - i - 1].first;
 		order[i] = sprites[amount - i - 1].second;
+		i++;
 	}
 	free(sprites);
 }
 
 void	draw(t_info *info)
 {
-	for (int y = 0; y < SCREEN_HEIGHT; y++)
+	int	y;
+	int	x;
+
+	y = 0;
+	while (y < SCREEN_HEIGHT)
 	{
-		for (int x = 0; x < SCREEN_WIDTH; x++)
+		x = 0;
+		while (x < SCREEN_WIDTH)
 		{
 			info->img.data[y * (info->img.size_l / 4) + x] = info->buf[y][x];
+			x++;
 		}
+		y++;
 	}
 	mlx_put_image_to_window(info->mlx, info->win, info->img.img, 0, 0);
 }
 
-void	calc(t_info *info)
+void	cast_floor(t_info *info)
 {
+	int		y;
+	int		x;
+	float	rayDirX0;
+	float	rayDirY0;
+	float	rayDirX1;
+	float	rayDirY1;
+	int		p;
+	float	posZ;
+	float	rowDistance;
+	float	floorStepX;
+	float	floorStepY;
+	float	floorX;
+	float	floorY;
+	int		cellX;
+	int		cellY;
+	int		tx;
+	int		ty;
+	int		color;
+
 	//FLOOR CASTING
-	for(int y = SCREEN_HEIGHT / 2 + 1; y < SCREEN_HEIGHT; ++y)
+	y = SCREEN_HEIGHT / 2 + 1;
+	while (y < SCREEN_HEIGHT)
 	{
 		// rayDir for leftmost ray (x = 0) and rightmost ray (x = w)
-		float rayDirX0 = info->dirX - info->planeX;
-		float rayDirY0 = info->dirY - info->planeY;
-		float rayDirX1 = info->dirX + info->planeX;
-		float rayDirY1 = info->dirY + info->planeY;
+		rayDirX0 = info->dirX - info->planeX;
+		rayDirY0 = info->dirY - info->planeY;
+		rayDirX1 = info->dirX + info->planeX;
+		rayDirY1 = info->dirY + info->planeY;
 		// Current y position compared to the center of the screen (the horizon)
-		int p = y - SCREEN_HEIGHT / 2;
+		p = y - SCREEN_HEIGHT / 2;
 		// Vertical position of the camera.
-		float posZ = 0.5 * SCREEN_HEIGHT;
+		posZ = 0.5 * SCREEN_HEIGHT;
 		// Horizontal distance from the camera to the floor for the current row.
 		// 0.5 is the z position exactly in the middle between floor and ceiling.
-		float rowDistance = posZ / p;
+		rowDistance = posZ / p;
 		// calculate the real world step vector we have to add for each x (parallel to camera plane)
 		// adding step by step avoids multiplications with a weight in the inner loop
-		float floorStepX = rowDistance * (rayDirX1 - rayDirX0) / SCREEN_WIDTH;
-		float floorStepY = rowDistance * (rayDirY1 - rayDirY0) / SCREEN_WIDTH;
+		floorStepX = rowDistance * (rayDirX1 - rayDirX0) / SCREEN_WIDTH;
+		floorStepY = rowDistance * (rayDirY1 - rayDirY0) / SCREEN_WIDTH;
 		// real world coordinates of the leftmost column. This will be updated as we step to the right.
-		float floorX = info->posX + rowDistance * rayDirX0;
-		float floorY = info->posY + rowDistance * rayDirY0;
-		for(int x = 0; x < SCREEN_WIDTH; ++x)
+		floorX = info->posX + rowDistance * rayDirX0;
+		floorY = info->posY + rowDistance * rayDirY0;
+		x = 0;
+		while (x < SCREEN_WIDTH)
 		{
 			// the cell coord is simply got from the integer parts of floorX and floorY
-			int cellX = (int)(floorX);
-			int cellY = (int)(floorY);
+			cellX = (int)(floorX);
+			cellY = (int)(floorY);
 			// get the texture coordinate from the fractional part
-			int tx = (int)(TEX_WIDTH * (floorX - cellX)) & (TEX_WIDTH - 1);
-			int ty = (int)(TEX_HEIGHT * (floorY - cellY)) & (TEX_HEIGHT - 1);
+			tx = (int)(TEX_WIDTH * (floorX - cellX)) & (TEX_WIDTH - 1);
+			ty = (int)(TEX_HEIGHT * (floorY - cellY)) & (TEX_HEIGHT - 1);
 			floorX += floorStepX;
 			floorY += floorStepY;
-	
-			int color;
 			// floor
 			info->buf[y][x] = info->floor_color;
 			//ceiling (symmetrical, at height - y - 1 instead of y)
 			color = info->ceiling_color;
 			color = (color >> 1) & 8355711; // make a bit darker
 			info->buf[SCREEN_HEIGHT - y - 1][x] = color;
+			x++;
 		}
+		y++;
 	}
+}
+
+void	cast_wall(t_info *info)
+{
+	int		y;
+	int		x;
+	double	cameraX;
+	double	rayDirX;
+	double	rayDirY;
+	int		mapX;
+	int		mapY;
+	double	sideDistX;
+	double	sideDistY;
+	double	deltaDistX;
+	double	deltaDistY;
+	double	perpWallDist;
+	int		stepX;
+	int		stepY;
+	int		hit; //was there a wall hit?
+	int		side; //was a NS or a EW wall hit?
+
 	// WALL CASTING
-	for(int x = 0; x < SCREEN_WIDTH; x++)
+	x = 0;
+	while (x < SCREEN_WIDTH)
 	{
 		//calculate ray position and direction
-		double cameraX = 2 * x / (double)SCREEN_WIDTH - 1; //x-coordinate in camera space
-		double rayDirX = info->dirX + info->planeX * cameraX;
-		double rayDirY = info->dirY + info->planeY * cameraX;
+		cameraX = 2 * x / (double)SCREEN_WIDTH - 1; //x-coordinate in camera space
+		rayDirX = info->dirX + info->planeX * cameraX;
+		rayDirY = info->dirY + info->planeY * cameraX;
 		//which box of the map we're in
-		int mapX = (int)info->posX;
-		int mapY = (int)info->posY;
-		//length of ray from current position to next x or y-side
-		double sideDistX;
-		double sideDistY;
+		mapX = (int)info->posX;
+		mapY = (int)info->posY;
 		//length of ray from one x or y-side to next x or y-side
-		double deltaDistX = fabs(1 / rayDirX);
-		double deltaDistY = fabs(1 / rayDirY);
-		double perpWallDist;
-		//what direction to step in x or y-direction (either +1 or -1)
-		int stepX;
-		int stepY;
-		int hit = 0; //was there a wall hit?
-		int side; //was a NS or a EW wall hit?
+		deltaDistX = fabs(1 / rayDirX);
+		deltaDistY = fabs(1 / rayDirY);
+		hit = 0;
 		//calculate step and initial sideDist
 		if(rayDirX < 0)
 		{
@@ -230,10 +281,16 @@ void	calc(t_info *info)
 			if(side == 1) color = (color >> 1) & 8355711;
 			info->buf[y][x] = color;
 		}
-
 		//SET THE ZBUFFER FOR THE SPRITE CASTING
 		info->zBuffer[x] = perpWallDist; //perpendicular distance is used
+		x++;
 	}
+}
+
+void	cast_sprite(t_info *info)
+{
+	int		y;
+	int		x;
 
 	//SPRITE CASTING
 	//sort sprites from far to close
@@ -302,6 +359,13 @@ void	calc(t_info *info)
 			}
 		}
 	}
+}
+
+void	calc(t_info *info)
+{
+	cast_floor(info);
+	cast_wall(info);
+	cast_sprite(info);
 }
 
 int	main_loop(t_info *info)
