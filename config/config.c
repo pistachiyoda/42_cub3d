@@ -256,12 +256,14 @@ int handle_map(t_info *info, char *line, int *y)
 	while (i < line_len)
 	{
 		if (!ft_strrchr(" 012NWES", line[i]))
-			return (0);
+			end_game(1, "Error:invalid map\n");
 		info->worldMap[*y][i] = proc_map_element(line[i]);
 		if (info->worldMap[*y][i] == 2)
 			add_sprite(info, *y, i);
 		if (ft_strrchr("NWES", line[i]))
 		{
+			if (info->initial_direction != '\0')
+				end_game(1, "Error:invalid map\n");
 			info->posX = *y;
 			info->posY = i;
 			info->initial_direction = line[i];
@@ -298,6 +300,7 @@ void init_info(t_info *info)
 	info->south_texture_path = NULL;
 	info->floor_color = -1;
 	info->ceiling_color = -1;
+	info->initial_direction = '\0';
 }
 
 void check_map(t_info *info)
@@ -305,6 +308,8 @@ void check_map(t_info *info)
 	int current_x;
 	int current_y;
 
+	if (info->initial_direction == '\0')
+		end_game(1, "Error:invalid map\n");
 	current_y = 0;
 	while (current_y < info->map_height)
 	{
