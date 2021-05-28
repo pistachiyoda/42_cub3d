@@ -6,7 +6,7 @@
 /*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 17:37:37 by fmai              #+#    #+#             */
-/*   Updated: 2021/05/28 17:55:10 by fmai             ###   ########.fr       */
+/*   Updated: 2021/05/28 18:42:05 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,4 +101,5 @@ void	handle_texture(t_info *info, char *file_path, int direction);
 void	handle_floor(t_info *info, char *color_text);
 void	handle_ceiling(t_info *info, char *color_text);
 int		handle_map(t_info *info, char *line, int *y);
+void	check_map(t_info *info);
 #endif
