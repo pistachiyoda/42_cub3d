@@ -142,9 +142,9 @@ int proc_map_element(char c)
 		return (1);
 	if (c == '2')
 		return (2);
-	if (c == ' ' || c == 'N' || c == 'E' || c == 'W' || c == 'S')
+	if (c == 'N' || c == 'E' || c == 'W' || c == 'S')
 		return (0);
-	return (0);
+	return (-1);
 }
 
 int add_sprite(t_info *info, int y, int x)
@@ -224,6 +224,15 @@ void init_position(t_info *info)
 		return (s_position(info));
 }
 
+/**
+ * worldMap仕様
+ * 
+ * 0 床
+ * 1 壁
+ * N, W, E, S プレイヤーの位置と方角
+ * -1 左側パディング
+ * -2 行の右端
+ */
 int handle_map(t_info *info, char *line, int *y)
 {
 	int **new_map_array;
@@ -243,7 +252,7 @@ int handle_map(t_info *info, char *line, int *y)
 
 	i = 0;
 	line_len = ft_strlen(line);
-	info->worldMap[*y] = (int *)malloc(sizeof(int) * line_len);
+	info->worldMap[*y] = (int *)malloc(sizeof(int) * (line_len + 1));
 	while (i < line_len)
 	{
 		if (!ft_strrchr(" 012NWES", line[i]))
@@ -258,7 +267,8 @@ int handle_map(t_info *info, char *line, int *y)
 			info->initial_direction = line[i];
 		}
 		i++;
-	}	
+	}
+	info->worldMap[*y][i] = -2;
 	if (info->map_width < line_len)
 		info->map_width = line_len;
 	(info->map_height)++;
@@ -290,6 +300,38 @@ void init_info(t_info *info)
 	info->ceiling_color = -1;
 }
 
+void check_map(t_info *info)
+{
+	int current_x;
+	int current_y;
+
+	current_y = 0;
+	while (current_y < info->map_height)
+	{
+		current_x = 0;
+		while (info->worldMap[current_y][current_x] != -2)
+		{
+			if (info->worldMap[current_y][current_x] != 0)
+			{
+				current_x++;
+				continue;
+			}
+			if (current_y > 0 && info->worldMap[current_y - 1][current_x] != 0 && info->worldMap[current_y - 1][current_x] != 1)
+				end_game(1, "Error:invalid map\n");
+			if (current_y < (info->map_height -1) && info->worldMap[current_y + 1][current_x] != 0 && info->worldMap[current_y + 1][current_x] != 1)
+				end_game(1, "Error:invalid map\n");
+			if (current_x > 0 && info->worldMap[current_y][current_x - 1] != 0 && info->worldMap[current_y][current_x - 1] != 1)
+				end_game(1, "Error:iinvalid map\n");
+			if (info->worldMap[current_y][current_x + 1] != 0 && info->worldMap[current_y][current_x + 1] != 1)
+				end_game(1, "Error:iinvalid map\n");
+			if ((current_y == 0 || current_x == 0 || current_y == info->map_height -1) && info->worldMap[current_y][current_x] == 0)
+				end_game(1, "Error:iinvalid map\n");
+			current_x++;
+		}
+		current_y++;
+	}
+}
+
 int	read_config(t_info *info, char *file_path)
 {
 	int		fd;
@@ -313,10 +355,15 @@ int	read_config(t_info *info, char *file_path)
 		ret = get_next_line(fd, &line);
 		if (!info_completed(info))
 			handle_info(info, line);
+		else if (info->worldMap == NULL && ft_strcmp(line, ""))
+			continue ;
 		else if (info->worldMap != NULL && ft_strcmp(line, ""))
 			end_game(1, "unexpected empty line\n");
 		else if (info_completed(info))
+		{
 			handle_map(info, line, &y);
+		}
 	}
+	check_map(info);
 	return (1);
 }

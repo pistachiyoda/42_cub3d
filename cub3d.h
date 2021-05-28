@@ -11,8 +11,6 @@
 #define X_EVENT_KEY_EXIT	17
 #define texWidth 64
 #define texHeight 64
-#define mapWidth 10
-#define mapHeight 10
 #define screenWidth 1000
 #define screenHeight 700
 # define SUCCESS 1
