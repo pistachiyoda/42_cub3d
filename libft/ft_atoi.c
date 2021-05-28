@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmai <fmai@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 16:03:09 by fmai              #+#    #+#             */
-/*   Updated: 2020/11/26 11:34:11 by fmai             ###   ########.fr       */
+/*   Updated: 2021/05/28 17:04:42 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,10 @@ int	ft_atoi(const char *str)
 
 	while (is_space(*str))
 		str++;
-	sign = *str == '-' ? -1 : 1;
+	if (*str == '-')
+		sign = -1;
+	else
+		sign = 1;
 	if (*str == '-' || *str == '+')
 		str++;
 	n = 0;

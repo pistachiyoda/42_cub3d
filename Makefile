@@ -3,8 +3,9 @@ CC = gcc
 INCS = -I. -Imlx -Ignl -Ilibft
 LIBS = -Lmlx -lmlx -Lgnl -lgnl -Llibft -lft
 # CFLAGS = -Wall -Wextra -Werror -Imlx
-CFLAGS = $(INCS)
-CFILES = main.c calc.c ./config/config.c
+# @todo -fsanitize取る
+CFLAGS = $(INCS) -fsanitize=address
+CFILES = main.c calc.c ./config/config.c ./config/handle_texture.c ./config/handle_floor_ceiling.c ./config/handle_map.c
 OBJ = $(CFILES:.c=.o)
 MLX = ./mlx/libmlx.dylib
 GNL = ./gnl/libgnl.a
