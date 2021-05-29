@@ -6,7 +6,7 @@
 /*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 17:37:37 by fmai              #+#    #+#             */
-/*   Updated: 2021/05/28 19:36:26 by fmai             ###   ########.fr       */
+/*   Updated: 2021/05/29 12:35:53 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,12 @@ typedef struct s_info
 	int			map_width;
 	char		initial_direction;
 }				t_info;
+
+typedef struct s_pair
+{
+	double	first;
+	int		second;
+}				t_pair;
 int		main_loop(t_info *info);
 int		key_press(int key, t_info *info);
 int		key_release(int key, t_info *info);
@@ -103,4 +109,6 @@ void	handle_ceiling(t_info *info, char *color_text);
 int		handle_map(t_info *info, char *line, int *y);
 void	check_map(t_info *info);
 void	cast_floor(t_info *info);
+void	cast_wall(t_info *info);
+void	cast_sprite(t_info *info);
 #endif
