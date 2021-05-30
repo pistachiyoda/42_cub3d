@@ -26,6 +26,7 @@ void	calc(t_info *info)
 	cast_wall(info);
 	cast_sprite(info);
 }
+
 int	main_loop(t_info *info)
 {
 	calc(info);
@@ -34,7 +35,7 @@ int	main_loop(t_info *info)
 	return (0);
 }
 
-int		key_press(int key, t_info *info)
+int	key_press(int key, t_info *info)
 {
 	if (key == K_ESC)
 		exit(0);
@@ -53,7 +54,7 @@ int		key_press(int key, t_info *info)
 	return (0);
 }
 
-int		key_release(int key, t_info *info)
+int	key_release(int key, t_info *info)
 {
 	if (key == K_ESC)
 		exit(0);
