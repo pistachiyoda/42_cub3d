@@ -6,7 +6,7 @@
 /*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 17:37:37 by fmai              #+#    #+#             */
-/*   Updated: 2021/05/30 10:27:50 by fmai             ###   ########.fr       */
+/*   Updated: 2021/05/30 13:58:17 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,13 @@ typedef struct s_info
 	int			stepY;
 	int			hit;
 	int			wall_x;
+	int			side; //was a NS or a EW wall hit?
+	int			texNum;
+	int			lineHeight;
+	int			drawStart;
+	int			drawEnd;
+	double		perpWallDist;
+	int			texX;
 }				t_info;
 
 typedef struct s_pair
@@ -124,4 +131,7 @@ void	check_map(t_info *info);
 void	cast_floor(t_info *info);
 void	cast_wall(t_info *info);
 void	cast_sprite(t_info *info);
+void	calc_sidedist(t_info *info);
+void	calc_val_for_dda(t_info *info);
+void	dda(t_info *info);
 #endif
