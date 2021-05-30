@@ -6,7 +6,7 @@
 /*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 17:37:37 by fmai              #+#    #+#             */
-/*   Updated: 2021/05/30 13:58:17 by fmai             ###   ########.fr       */
+/*   Updated: 2021/05/30 15:13:56 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,9 @@
 # define	SCREEN_HEIGHT		700
 # define	SUCCESS				1
 # define	FAILED				-1
+# define	UDIV 1
+# define	VDIV 1
+# define	VMOVE 0.0
 
 typedef struct s_img
 {
@@ -48,6 +51,30 @@ typedef struct s_sprite
 	double		x;
 	double		y;
 }				t_sprite;
+
+typedef	struct s_cast_stripe_params
+{
+	double	spriteX;
+	double	spriteY;
+	double	invDet;
+	double	transformX;
+	double	transformY;
+	int		spriteScreenX;
+	int		vMoveScreen;
+	int		spriteHeight;
+	int		spriteWidth;
+	int		drawStartY;
+	int		drawEndY;
+	int		drawStartX;
+	int		drawEndX;
+	int		stripe;
+	int		texX;
+	int		texY;
+	int		y;
+	int		d;
+	int		color;
+}				t_cast_stripe_params;
+
 
 typedef struct s_info
 {
@@ -130,6 +157,7 @@ int		handle_map(t_info *info, char *line, int *y);
 void	check_map(t_info *info);
 void	cast_floor(t_info *info);
 void	cast_wall(t_info *info);
+void	obtain_cast_sprite_params(t_info *info, t_cast_stripe_params *params, int i);
 void	cast_sprite(t_info *info);
 void	calc_sidedist(t_info *info);
 void	calc_val_for_dda(t_info *info);
