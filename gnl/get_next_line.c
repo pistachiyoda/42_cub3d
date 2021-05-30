@@ -6,7 +6,7 @@
 /*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/11 00:54:36 by fmai              #+#    #+#             */
-/*   Updated: 2021/05/30 23:07:55 by fmai             ###   ########.fr       */
+/*   Updated: 2021/05/30 23:18:22 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,33 +79,50 @@ int	handle_save(char **save, int fd, char **line)
 	return (0);
 }
 
+int	get_next_line_loop(int fd, char *buf, char *save[256])
+{
+	int		buf_cnt;
+	char	*tmp;
+
+	buf_cnt = read(fd, buf, BUFFER_SIZE);
+	if (!buf_cnt)
+		return (1);
+	if (buf_cnt == -1)
+		return (handle_error(buf, save[fd]));
+	if (!save[fd])
+	{
+		save[fd] = ft_strdup_gnl("");
+		if (!save[fd])
+			return (handle_error(buf, NULL));
+	}
+	tmp = ft_strnjoin(save[fd], buf, buf_cnt);
+	if (!tmp)
+		return (handle_error(buf, save[fd]));
+	free(save[fd]);
+	save[fd] = tmp;
+	if (newline_index(save[fd]) != -1)
+		return (1);
+	return (0);
+}
+
 int	get_next_line(int fd, char **line)
 {
-	int				buf_cnt;
-	char			*buf;
-	static char		*save[256];
-	char			*tmp;
+	char		*buf;
+	static char	*save[256];
+	int			ret;
 
-	if (BUFFER_SIZE <= 0 || fd < 0 || fd >= 256
-		|| !(buf = (char *)malloc(sizeof(char) * BUFFER_SIZE)))
+	buf = (char *)malloc(sizeof(char) * BUFFER_SIZE);
+	if (BUFFER_SIZE <= 0 || fd < 0 || fd >= 256 || !buf)
 		return (-1);
-	while ((buf_cnt = read(fd, buf, BUFFER_SIZE)))
+	while (1)
 	{
-		if (buf_cnt == -1)
-			return (handle_error(buf, save[fd]));
-		if (!save[fd])
-		{
-			save[fd] = ft_strdup_gnl("");
-			if (!save[fd])
-				return (handle_error(buf, NULL));
-		}
-		tmp = ft_strnjoin(save[fd], buf, buf_cnt);
-		if (!tmp)
-			return (handle_error(buf, save[fd]));
-		free(save[fd]);
-		save[fd] = tmp;
-		if (newline_index(save[fd]) != -1)
+		ret = get_next_line_loop(fd, buf, save);
+		if (ret == 0)
+			continue ;
+		else if (ret == 1)
 			break ;
+		else
+			return (ret);
 	}
 	free(buf);
 	return (handle_save(save, fd, line));
