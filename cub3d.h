@@ -6,7 +6,7 @@
 /*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 17:37:37 by fmai              #+#    #+#             */
-/*   Updated: 2021/05/30 15:43:03 by fmai             ###   ########.fr       */
+/*   Updated: 2021/05/30 15:51:39 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ typedef struct s_sprite
 	double		y;
 }				t_sprite;
 
-typedef	struct s_cast_stripe_params
+typedef struct s_cast_stripe_params
 {
 	double	spriteX;
 	double	spriteY;
@@ -74,7 +74,6 @@ typedef	struct s_cast_stripe_params
 	int		d;
 	int		color;
 }				t_cast_stripe_params;
-
 
 typedef struct s_info
 {
@@ -127,7 +126,7 @@ typedef struct s_info
 	int			stepY;
 	int			hit;
 	int			wall_x;
-	int			side; //was a NS or a EW wall hit?
+	int			side;
 	int			texNum;
 	int			lineHeight;
 	int			drawStart;
@@ -157,7 +156,8 @@ int		handle_map(t_info *info, char *line, int *y);
 void	check_map(t_info *info);
 void	cast_floor(t_info *info);
 void	cast_wall(t_info *info);
-void	obtain_cast_sprite_params(t_info *info, t_cast_stripe_params *params, int i);
+void	obtain_cast_sprite_params(
+			t_info *info, t_cast_stripe_params *params, int i);
 void	cast_sprite(t_info *info);
 void	calc_sidedist(t_info *info);
 void	calc_val_for_dda(t_info *info);
