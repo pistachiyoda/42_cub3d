@@ -6,15 +6,15 @@
 /*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/11 00:55:37 by fmai              #+#    #+#             */
-/*   Updated: 2021/05/19 02:03:14 by fmai             ###   ########.fr       */
+/*   Updated: 2021/05/30 22:45:59 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-size_t		ft_strlen_gnl(char *str)
+size_t	ft_strlen_gnl(char *str)
 {
-	size_t cnt;
+	size_t	cnt;
 
 	if (!str)
 		return (0);
@@ -29,7 +29,7 @@ size_t		ft_strlen_gnl(char *str)
 	return (cnt);
 }
 
-char		*ft_strdup_gnl(char *src)
+char	*ft_strdup_gnl(char *src)
 {
 	int		str_cnt;
 	char	*malloc_p;
@@ -49,14 +49,15 @@ char		*ft_strdup_gnl(char *src)
 	return (malloc_p);
 }
 
-char		*ft_strnjoin(char *s1, char const *s2, int n)
+char	*ft_strnjoin(char *s1, char const *s2, int n)
 {
 	size_t	len;
 	char	*str;
 	char	*ret;
 
 	len = ft_strlen_gnl((char *)s1) + n + 1;
-	if ((str = (char *)malloc(sizeof(char) * len)) == NULL)
+	str = (char *)malloc(sizeof(char) * len);
+	if (str == NULL)
 		return (NULL);
 	ret = str;
 	while (*s1 != '\0')
@@ -67,7 +68,7 @@ char		*ft_strnjoin(char *s1, char const *s2, int n)
 	return (ret);
 }
 
-int			newline_index(char *str)
+int	newline_index(char *str)
 {
 	int	i;
 
@@ -80,5 +81,12 @@ int			newline_index(char *str)
 			return (i);
 		i++;
 	}
+	return (-1);
+}
+
+int	handle_error(char *buf, char *save)
+{
+	free(buf);
+	free(save);
 	return (-1);
 }
