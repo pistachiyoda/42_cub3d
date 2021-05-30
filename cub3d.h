@@ -6,7 +6,7 @@
 /*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 17:37:37 by fmai              #+#    #+#             */
-/*   Updated: 2021/05/29 12:35:53 by fmai             ###   ########.fr       */
+/*   Updated: 2021/05/30 10:27:50 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,19 @@ typedef struct s_info
 	int			map_height;
 	int			map_width;
 	char		initial_direction;
+	double		cameraX;
+	double		rayDirX;
+	double		rayDirY;
+	int			mapX;
+	int			mapY;
+	double		sideDistX;
+	double		sideDistY;
+	double		deltaDistX;
+	double		deltaDistY;
+	int			stepX;
+	int			stepY;
+	int			hit;
+	int			wall_x;
 }				t_info;
 
 typedef struct s_pair
