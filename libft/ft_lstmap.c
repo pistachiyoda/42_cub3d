@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmai <fmai@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/21 04:36:21 by fmai              #+#    #+#             */
-/*   Updated: 2020/11/24 20:02:54 by fmai             ###   ########.fr       */
+/*   Updated: 2021/05/30 17:07:26 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 {
-	t_list *new_lst;
-	t_list *new_ele;
+	t_list	*new_lst;
+	t_list	*new_ele;
 
 	if (lst == NULL || f == NULL)
 		return (NULL);

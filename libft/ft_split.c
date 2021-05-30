@@ -3,23 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmai <fmai@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 22:39:26 by fmai              #+#    #+#             */
-/*   Updated: 2020/11/25 16:45:34 by fmai             ###   ########.fr       */
+/*   Updated: 2021/05/30 17:07:11 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include <stdio.h>
 
-static int		cnt_element(char const *s, char c)
+static int	cnt_element(char const *s, char c)
 {
-	int cnt;
-	int i;
-	int len;
+	int	cnt;
+	int	i;
+	int	len;
 
-	cnt = s[0] != c ? 1 : 0;
+	if (s[0] != c)
+		cnt = 1;
+	else
+		cnt = 0;
 	i = 0;
 	len = ft_strlen((char *)s);
 	while (i < len)
@@ -31,13 +34,13 @@ static int		cnt_element(char const *s, char c)
 	return (cnt);
 }
 
-static void		all_free(char *tmp, char *tmp2)
+static void	all_free(char *tmp, char *tmp2)
 {
 	free(tmp);
 	free(tmp2);
 }
 
-static int		make_element(char **ret, char *s, char c, char **buf)
+static int	make_element(char **ret, char *s, char c, char **buf)
 {
 	char	*tmp;
 	char	*tmp2;
@@ -66,7 +69,7 @@ static int		make_element(char **ret, char *s, char c, char **buf)
 	return (ret_index);
 }
 
-char			**ft_split(char const *s, char c)
+char	**ft_split(char const *s, char c)
 {
 	char	**ret;
 	int		ret_index;

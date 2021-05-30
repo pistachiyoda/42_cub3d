@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmai <fmai@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 01:20:38 by fmai              #+#    #+#             */
-/*   Updated: 2020/11/25 17:39:13 by fmai             ###   ########.fr       */
+/*   Updated: 2021/05/30 17:02:32 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ int	ft_strncmp(const char *strs, const char *str, size_t n)
 	unsigned char	*s1;
 	unsigned char	*s2;
 
-	s1 = (unsigned char*)strs;
-	s2 = (unsigned char*)str;
+	s1 = (unsigned char *)strs;
+	s2 = (unsigned char *)str;
 	i = 0;
 	while (i < n)
 	{

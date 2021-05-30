@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmai <fmai@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 16:27:45 by fmai              #+#    #+#             */
-/*   Updated: 2020/11/23 00:16:20 by fmai             ###   ########.fr       */
+/*   Updated: 2021/05/30 17:02:12 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		is_matched(char c, char const *set)
+int	is_matched(char c, char const *set)
 {
-	size_t i;
+	size_t	i;
 
 	i = 0;
 	while (i < ft_strlen((char *)set))
@@ -26,7 +26,7 @@ int		is_matched(char c, char const *set)
 	return (0);
 }
 
-int		process_beginning(char **s1, char const *set, size_t *len)
+int	process_beginning(char **s1, char const *set, size_t *len)
 {
 	while (1)
 	{
