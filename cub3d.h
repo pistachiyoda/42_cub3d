@@ -6,7 +6,7 @@
 /*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 17:37:37 by fmai              #+#    #+#             */
-/*   Updated: 2021/05/30 15:13:56 by fmai             ###   ########.fr       */
+/*   Updated: 2021/05/30 15:43:03 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,4 +162,7 @@ void	cast_sprite(t_info *info);
 void	calc_sidedist(t_info *info);
 void	calc_val_for_dda(t_info *info);
 void	dda(t_info *info);
+void	key_update(t_info *info);
+void	key_move(t_info *info);
+void	key_rotate(t_info *info);
 #endif

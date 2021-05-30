@@ -8,7 +8,8 @@ CFLAGS = $(INCS) -fsanitize=address
 CFILES = main.c calc.c\
 		./cast/cast_floor.c ./cast/cast_wall.c ./cast/cast_sprite.c ./cast/dda.c ./cast/obtain_cast_sprite_params.c\
 		./config/config.c ./config/handle_texture.c ./config/handle_floor_ceiling.c\
-		./config/handle_map.c ./config/check_map.c ./config/init_position.c ./config/init_sprite_order.c
+		./config/handle_map.c ./config/check_map.c ./config/init_position.c ./config/init_sprite_order.c\
+		./key/key_update.c ./key/key_move.c ./key/key_rotate.c
 OBJ = $(CFILES:.c=.o)
 MLX = ./mlx/libmlx.dylib
 GNL = ./gnl/libgnl.a
