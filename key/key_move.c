@@ -3,40 +3,40 @@
 void	handle_key_w(t_info *info)
 {
 	if (!info->worldMap[(int)(
-			info->posX + info->dirX * info->moveSpeed)][(int)(info->posY)])
+			info->posX + info->dirX * info->moveSpeed * 2)][(int)(info->posY)])
 		info->posX += info->dirX * info->moveSpeed;
 	if (!info->worldMap[(int)(
-			info->posX)][(int)(info->posY + info->dirY * info->moveSpeed)])
+			info->posX)][(int)(info->posY + info->dirY * info->moveSpeed * 2)])
 		info->posY += info->dirY * info->moveSpeed;
 }
 
 void	handle_key_s(t_info *info)
 {
 	if (!info->worldMap[(int)(
-			info->posX - info->dirX * info->moveSpeed)][(int)(info->posY)])
+			info->posX - info->dirX * info->moveSpeed * 2)][(int)(info->posY)])
 		info->posX -= info->dirX * info->moveSpeed;
 	if (!info->worldMap[(int)(
-			info->posX)][(int)(info->posY - info->dirY * info->moveSpeed)])
+			info->posX)][(int)(info->posY - info->dirY * info->moveSpeed * 2)])
 		info->posY -= info->dirY * info->moveSpeed;
 }
 
 void	handle_key_d(t_info *info)
 {
 	if (!info->worldMap[(int)(
-			info->posX + info->dirY * info->moveSpeed)][(int)(info->posY)])
+			info->posX + info->dirY * info->moveSpeed * 2)][(int)(info->posY)])
 		info->posX += info->dirY * info->moveSpeed;
 	if (!info->worldMap[(int)(
-			info->posX)][(int)(info->posY - info->dirX * info->moveSpeed * -1)])
+			info->posX)][(int)(info->posY - info->dirX * info->moveSpeed * 2)])
 		info->posY += info->dirX * info->moveSpeed * -1;
 }
 
 void	handle_key_a(t_info *info)
 {
 	if (!info->worldMap[(int)(
-			info->posX - info->dirY * info->moveSpeed)][(int)(info->posY)])
+			info->posX - info->dirY * info->moveSpeed * 2)][(int)(info->posY)])
 		info->posX -= info->dirY * info->moveSpeed;
 	if (!info->worldMap[(int)(
-			info->posX)][(int)(info->posY - info->dirX * info->moveSpeed * -1)])
+			info->posX)][(int)(info->posY - info->dirX * info->moveSpeed * -2)])
 		info->posY -= info->dirX * info->moveSpeed * -1;
 }
 
