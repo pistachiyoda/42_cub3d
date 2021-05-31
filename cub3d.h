@@ -6,7 +6,7 @@
 /*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 17:37:37 by fmai              #+#    #+#             */
-/*   Updated: 2021/05/31 16:47:27 by fmai             ###   ########.fr       */
+/*   Updated: 2021/05/31 17:00:01 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,26 +137,6 @@ typedef struct s_info
 	int			map_height;
 	int			map_width;
 	char		initial_direction;
-	// double		cameraX;
-	// double		rayDirX;
-	// double		rayDirY;
-	// int			mapX;
-	// int			mapY;
-	// double		sideDistX;
-	// double		sideDistY;
-	// double		deltaDistX;
-	// double		deltaDistY;
-	// int			stepX;
-	// int			stepY;
-	// int			hit;
-	// int			wall_x;
-	// int			side;
-	// int			texNum;
-	// int			lineHeight;
-	// int			drawStart;
-	// int			drawEnd;
-	// double		perpWallDist;
-	// int			texX;
 }				t_info;
 
 typedef struct s_pair
@@ -183,9 +163,9 @@ void	cast_wall(t_info *info);
 void	obtain_cast_sprite_params(
 			t_info *info, t_cast_stripe_params *params, int i);
 void	cast_sprite(t_info *info);
-void	calc_sidedist(t_info *info, t_cast_wall_params *wall_params);
-void	calc_val_for_dda(t_info *info, t_cast_wall_params *wall_params);
-void	dda(t_info *info, t_cast_wall_params *wall_params);
+void	calc_sidedist(t_info *info, t_cast_wall_params *params);
+void	calc_val_for_dda(t_info *info, t_cast_wall_params *params);
+void	dda(t_info *info, t_cast_wall_params *params);
 void	key_update(t_info *info);
 void	key_move(t_info *info);
 void	key_rotate(t_info *info);
