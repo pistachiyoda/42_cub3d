@@ -1,44 +1,44 @@
 #include "cub3d.h"
 
-void	calc_texnum(t_info *info)
+void	calc_texnum(t_info *info, t_cast_wall_params *wall_params)
 {	
-	if (info->side == 0 && info->rayDirX <= 0)
-		info->texNum = 0;
-	if (info->side == 1 && info->rayDirY <= 0)
-		info->texNum = 1;
-	if (info->side == 1 && info->rayDirY > 0)
-		info->texNum = 2;
-	if (info->side == 0 && info->rayDirX > 0)
-		info->texNum = 3;
+	if (wall_params->side == 0 && wall_params->rayDirX <= 0)
+		wall_params->texNum = 0;
+	if (wall_params->side == 1 && wall_params->rayDirY <= 0)
+		wall_params->texNum = 1;
+	if (wall_params->side == 1 && wall_params->rayDirY > 0)
+		wall_params->texNum = 2;
+	if (wall_params->side == 0 && wall_params->rayDirX > 0)
+		wall_params->texNum = 3;
 }
 
-void	calc_drawstart_end(t_info *info)
+void	calc_drawstart_end(t_cast_wall_params *wall_params)
 {
-	info->drawStart = -info->lineHeight / 2 + SCREEN_HEIGHT / 2;
-	if (info->drawStart < 0)
-		info->drawStart = 0;
-	info->drawEnd = info->lineHeight / 2 + SCREEN_HEIGHT / 2;
-	if (info->drawEnd >= SCREEN_HEIGHT)
-		info->drawEnd = SCREEN_HEIGHT - 1;
+	wall_params->drawStart = -wall_params->lineHeight / 2 + SCREEN_HEIGHT / 2;
+	if (wall_params->drawStart < 0)
+		wall_params->drawStart = 0;
+	wall_params->drawEnd = wall_params->lineHeight / 2 + SCREEN_HEIGHT / 2;
+	if (wall_params->drawEnd >= SCREEN_HEIGHT)
+		wall_params->drawEnd = SCREEN_HEIGHT - 1;
 }
 
-void	calc_texX(t_info *info)
+void	calc_texX(t_info *info, t_cast_wall_params *wall_params)
 {
 	double	wallX;
 
-	if (info->side == 0)
-		wallX = info->posY + info->perpWallDist * info->rayDirY;
+	if (wall_params->side == 0)
+		wallX = info->posY + wall_params->perpWallDist * wall_params->rayDirY;
 	else
-		wallX = info->posX + info->perpWallDist * info->rayDirX;
+		wallX = info->posX + wall_params->perpWallDist * wall_params->rayDirX;
 	wallX -= floor((wallX));
-	info->texX = (int)(wallX * (double)TEX_WIDTH);
-	if (info->side == 0 && info->rayDirX > 0)
-		info->texX = TEX_WIDTH - info->texX - 1;
-	if (info->side == 1 && info->rayDirY < 0)
-		info->texX = TEX_WIDTH - info->texX - 1;
+	wall_params->texX = (int)(wallX * (double)TEX_WIDTH);
+	if (wall_params->side == 0 && wall_params->rayDirX > 0)
+		wall_params->texX = TEX_WIDTH - wall_params->texX - 1;
+	if (wall_params->side == 1 && wall_params->rayDirY < 0)
+		wall_params->texX = TEX_WIDTH - wall_params->texX - 1;
 }
 
-void	set_colors(t_info *info)
+void	set_colors(t_info *info, t_cast_wall_params *wall_params)
 {
 	double	step;
 	double	texPos;
@@ -46,46 +46,47 @@ void	set_colors(t_info *info)
 	int		color;
 	int		y;
 
-	step = 1.0 * TEX_HEIGHT / info->lineHeight;
-	texPos = (info->drawStart - SCREEN_HEIGHT / 2 + info->lineHeight / 2)
+	step = 1.0 * TEX_HEIGHT / wall_params->lineHeight;
+	texPos = (wall_params->drawStart - SCREEN_HEIGHT / 2 + wall_params->lineHeight / 2)
 		* step;
-	y = info->drawStart;
-	while (y < info->drawEnd)
+	y = wall_params->drawStart;
+	while (y < wall_params->drawEnd)
 	{
 		texY = (int)texPos & (TEX_HEIGHT - 1);
 		texPos += step;
-		color = info->texture[info->texNum][TEX_HEIGHT * texY + info->texX];
-		if (info->side == 1)
+		color = info->texture[wall_params->texNum][TEX_HEIGHT * texY + wall_params->texX];
+		if (wall_params->side == 1)
 			color = (color >> 1) & 8355711;
-		info->buf[y][info->wall_x] = color;
+		info->buf[y][wall_params->wall_x] = color;
 		y++;
 	}
 }
 
 void	cast_wall(t_info *info)
 {
+	t_cast_wall_params wall_params;
 	int	y;
 
-	info->wall_x = 0;
-	while (info->wall_x < SCREEN_WIDTH)
+	wall_params.wall_x = 0;
+	while (wall_params.wall_x < SCREEN_WIDTH)
 	{
-		info->hit = 0;
-		calc_val_for_dda(info);
-		dda(info);
-		if (info->side == 0)
-			info->perpWallDist = (
-					info->mapX - info->posX + (1 - info->stepX) / 2)
-				/ info->rayDirX;
+		wall_params.hit = 0;
+		calc_val_for_dda(info, &wall_params);
+		dda(info, &wall_params);
+		if (wall_params.side == 0)
+			wall_params.perpWallDist = (
+					wall_params.mapX - info->posX + (1 - wall_params.stepX) / 2)
+				/ wall_params.rayDirX;
 		else
-			info->perpWallDist = (
-					info->mapY - info->posY + (1 - info->stepY) / 2)
-				/ info->rayDirY;
-		info->lineHeight = (int)(SCREEN_HEIGHT / info->perpWallDist);
-		calc_drawstart_end(info);
-		calc_texnum(info);
-		calc_texX(info);
-		set_colors(info);
-		info->zBuffer[info->wall_x] = info->perpWallDist;
-		info->wall_x++;
+			wall_params.perpWallDist = (
+					wall_params.mapY - info->posY + (1 - wall_params.stepY) / 2)
+				/ wall_params.rayDirY;
+		wall_params.lineHeight = (int)(SCREEN_HEIGHT / wall_params.perpWallDist);
+		calc_drawstart_end(&wall_params);
+		calc_texnum(info, &wall_params);
+		calc_texX(info, &wall_params);
+		set_colors(info, &wall_params);
+		info->zBuffer[wall_params.wall_x] = wall_params.perpWallDist;
+		wall_params.wall_x++;
 	}
 }
