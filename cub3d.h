@@ -6,7 +6,7 @@
 /*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 17:37:37 by fmai              #+#    #+#             */
-/*   Updated: 2021/05/31 17:00:01 by fmai             ###   ########.fr       */
+/*   Updated: 2021/05/31 17:29:19 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 # include	"mlx.h"
 # include	"libft.h"
 # include	"get_next_line.h"
-# include	"key_macos.h"
 # include	<math.h>
 # include	<fcntl.h>
 # include	<stdlib.h>
@@ -33,6 +32,14 @@
 # define	UDIV 1
 # define	VDIV 1
 # define	VMOVE 0.0
+# define	K_A 0
+# define	K_D 2
+# define	K_S 1
+# define	K_W 13
+# define	K_AR_L 123
+# define	K_AR_R 124
+# define	K_ESC 53
+# define	K_TAB 48
 
 typedef struct s_img
 {
