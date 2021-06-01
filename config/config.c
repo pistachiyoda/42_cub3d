@@ -25,7 +25,6 @@ int	ft_strcmp(char *a, char *b)
 void	handle_info(t_info *info, char *line)
 {
 	char	**parts;
-	int		ret;
 
 	parts = ft_split(line, ' ');
 	if (parts[0] == NULL)

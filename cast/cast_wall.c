@@ -1,6 +1,6 @@
 #include "cub3d.h"
 
-void	calc_texnum(t_info *info, t_cast_wall_params *params)
+void	calc_texnum(t_cast_wall_params *params)
 {	
 	if (params->side == 0 && params->rayDirX <= 0)
 		params->texNum = 0;
@@ -65,7 +65,6 @@ void	set_colors(t_info *info, t_cast_wall_params *params)
 void	cast_wall(t_info *info)
 {
 	t_cast_wall_params	params;
-	int					y;
 
 	params.wall_x = 0;
 	while (params.wall_x < SCREEN_WIDTH)
@@ -83,7 +82,7 @@ void	cast_wall(t_info *info)
 				/ params.rayDirY;
 		params.lineHeight = (int)(SCREEN_HEIGHT / params.perpWallDist);
 		calc_drawstart_end(&params);
-		calc_texnum(info, &params);
+		calc_texnum(&params);
 		calc_texX(info, &params);
 		set_colors(info, &params);
 		info->zBuffer[params.wall_x] = params.perpWallDist;

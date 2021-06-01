@@ -2,9 +2,8 @@ NAME = cub3d
 CC = gcc
 INCS = -I. -Imlx -Ignl -Ilibft
 LIBS = -Lmlx -lmlx -Lgnl -lgnl -Llibft -lft
-# CFLAGS = -Wall -Wextra -Werror -Imlx
 # @todo -fsanitize取る
-CFLAGS = $(INCS) -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror $(INCS) -fsanitize=address
 CFILES = main.c calc.c\
 		./cast/cast_floor.c ./cast/cast_wall.c ./cast/cast_sprite.c ./cast/dda.c ./cast/obtain_cast_sprite_params.c\
 		./config/config.c ./config/handle_texture.c ./config/handle_floor_ceiling.c\

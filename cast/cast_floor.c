@@ -49,7 +49,6 @@ void	cast_floor_line(t_info *info, int y, double rowDistance)
 void	cast_floor(t_info *info)
 {
 	int		y;
-	int		x;
 	float	rowDistance;
 
 	y = SCREEN_HEIGHT / 2 + 1;

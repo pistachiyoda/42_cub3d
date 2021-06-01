@@ -59,8 +59,6 @@ void	init_info(t_info *info)
 int	main(int argc, char **argv)
 {
 	t_info	info;
-	int		i;
-	int		j;
 
 	if (argc != 2)
 		end_game(1, "Error:invalid argument");
