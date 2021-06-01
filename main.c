@@ -62,6 +62,8 @@ int	main(int argc, char **argv)
 	int		i;
 	int		j;
 
+	if (argc != 2)
+		end_game(1, "Error:invalid argument");
 	init_info(&info);
 	if (read_config(&info, argv[1]) != 1)
 		exit(0);
