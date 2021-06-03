@@ -6,7 +6,7 @@
 /*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 17:37:37 by fmai              #+#    #+#             */
-/*   Updated: 2021/05/31 17:29:19 by fmai             ###   ########.fr       */
+/*   Updated: 2021/06/01 23:06:45 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,24 @@
 # define	UDIV 1
 # define	VDIV 1
 # define	VMOVE 0.0
-# define	K_A 0
-# define	K_D 2
-# define	K_S 1
-# define	K_W 13
-# define	K_AR_L 123
-# define	K_AR_R 124
-# define	K_ESC 53
-# define	K_TAB 48
+
+# ifdef __linux__
+#  define	K_W		119
+#  define	K_A		97
+#  define	K_S		115
+#  define	K_D		100
+#  define 	K_AR_L	65361
+#  define	K_AR_R	65363
+#  define 	K_ESC	65307
+# else
+#  define	K_W		13
+#  define	K_A		0
+#  define	K_S		1
+#  define	K_D		2
+#  define	K_AR_L	123
+#  define	K_AR_R	124
+#  define	K_ESC	53
+# endif
 
 typedef struct s_img
 {

@@ -1,7 +1,19 @@
 NAME = cub3d
 CC = gcc
-INCS = -I. -Imlx -Ignl -Ilibft
-LIBS = -Lmlx -lmlx -Lgnl -lgnl -Llibft -lft
+COMMON_LIBS = -lmlx -Lgnl -lgnl -Llibft -lft
+ifeq ($(shell uname), Darwin)
+	INCS = -I. -Iminilibx-mac -Ignl -Ilibft
+	MLX = ./minilibx-mac/libmlx.dylib
+	LIBS = -Lminilibx-mac $(COMMON_LIBS)
+	API = -framework OpenGL -framework AppKit
+	MLX_PASS = ./minilibx-mac/
+else
+	INCS = -I. -Iminilibx-linux -Ignl -Ilibft
+	MLX = ./minilibx-linux/libmlx.a
+	LIBS = -Lminilibx-linux $(COMMON_LIBS)
+	API = -lXext -lX11 -lm
+	MLX_PASS = ./minilibx-linux/
+endif
 # @todo -fsanitize取る
 CFLAGS = -Wall -Wextra -Werror $(INCS) -fsanitize=address
 CFILES = main.c calc.c\
@@ -10,19 +22,19 @@ CFILES = main.c calc.c\
 		./config/handle_map.c ./config/check_map.c ./config/init_position.c ./config/init_sprite_order.c\
 		./key/key_update.c ./key/key_move.c ./key/key_rotate.c
 OBJ = $(CFILES:.c=.o)
-MLX = ./mlx/libmlx.dylib
 GNL = ./gnl/libgnl.a
 LIBFT = ./libft/libft.a
+HEAD = cub3d.h
 
 all: $(NAME)
 $(NAME): $(OBJ) $(GNL) $(LIBFT) $(MLX)
-	$(CC) -o $(NAME) $(CFLAGS) $(LIBS) -framework OpenGL -framework AppKit $(OBJ)
+	$(CC) $(OBJ) -o $(NAME) $(CFLAGS) $(LIBS) $(API)
 $(GNL):
 	$(MAKE) -C ./gnl/
 $(LIBFT):
 	$(MAKE) -C ./libft/
 $(MLX):
-	$(MAKE) -C ./mlx/
+	$(MAKE) -C $(MLX_PASS)
 	cp $(MLX) .
 clean:
 	rm -f $(OBJ)
@@ -30,6 +42,7 @@ fclean: clean
 	rm -f $(NAME)
 	$(MAKE) -C ./gnl fclean
 	$(MAKE) -C ./libft fclean
-	$(MAKE) -C ./mlx clean
+	$(MAKE) -C $(MLX_PASS) clean
 re: fclean all
 .PHONY: all clean fclean re
+

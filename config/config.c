@@ -4,9 +4,6 @@
 
 int	ft_strcmp(char *a, char *b)
 {
-	int	i;
-
-	i = 0;
 	while (1)
 	{
 		if (*a == '\0' && *b == '\0')

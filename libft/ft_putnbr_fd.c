@@ -6,7 +6,7 @@
 /*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 16:04:28 by fmai              #+#    #+#             */
-/*   Updated: 2021/05/30 17:10:51 by fmai             ###   ########.fr       */
+/*   Updated: 2021/06/01 22:56:38 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 void	ft_putnbr_fd(int n, int fd)
 {
-	int	i;
-
 	if (n == -2147483648)
 	{
 		ft_putstr_fd("-2147483648", fd);
@@ -26,7 +24,6 @@ void	ft_putnbr_fd(int n, int fd)
 		ft_putchar_fd('-', fd);
 		n *= -1;
 	}
-	i = 0;
 	if (n / 10)
 	{
 		ft_putnbr_fd(n / 10, 1);
