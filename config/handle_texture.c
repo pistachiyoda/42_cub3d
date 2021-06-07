@@ -37,30 +37,36 @@ void	load_image(t_info *info, int *texture, char *path, t_img *img)
 	mlx_destroy_image(info->mlx, img->img);
 }
 
-void	file_exists(char *file_path)
+int	file_exists(char *file_path)
 {
 	int	ret;
 
 	ret = open(file_path, O_RDONLY);
 	if (ret == -1)
-		end_game(1, "file not exists\n");
+		return (0);
 	close(ret);
+	return (1);
 }
 
-void	handle_texture(t_info *info, char *file_path, int direction)
+void	handle_texture(t_info *info, char **parts, int direction)
 {
 	t_img	img;
 
-	if (file_path == NULL)
+	if (parts[0] == NULL)
 		end_game(1, "invalid file path\n");
-	file_exists(file_path);
-	if (direction == 0)
-		info->north_texture_path = file_path;
-	if (direction == 1)
-		info->west_texture_path = file_path;
-	if (direction == 2)
-		info->east_texture_path = file_path;
-	if (direction == 3)
-		info->south_texture_path = file_path;
-	load_image(info, info->texture[direction], file_path, &img);
+	if (!file_exists(parts[1]))
+	{
+		free_parts(parts);
+		end_game(1, "file not exists\n");
+	}
+	if (ft_strcmp(parts[0], "NO"))
+		info->north_texture_path = parts[1];
+	if (ft_strcmp(parts[0], "WE"))
+		info->west_texture_path = parts[1];
+	if (ft_strcmp(parts[0], "EA"))
+		info->east_texture_path = parts[1];
+	if (ft_strcmp(parts[0], "SO"))
+		info->south_texture_path = parts[1];
+	load_image(info, info->texture[direction], parts[1], &img);
+	free_parts(parts);
 }

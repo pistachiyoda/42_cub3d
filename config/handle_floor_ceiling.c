@@ -26,15 +26,18 @@ int	color_text_to_color_num(char *color_text)
 	color_num = ft_atoi(color_text_parts[0]);
 	color_num = (color_num << 8) + ft_atoi(color_text_parts[1]);
 	color_num = (color_num << 8) + ft_atoi(color_text_parts[2]);
+	free_parts(color_text_parts);
 	return (color_num);
 }
 
-void	handle_floor(t_info *info, char *color_text)
+void	handle_floor(t_info *info, char **color_text)
 {
-	info->floor_color = color_text_to_color_num(color_text);
+	info->floor_color = color_text_to_color_num(color_text[1]);
+	free_parts(color_text);
 }
 
-void	handle_ceiling(t_info *info, char *color_text)
+void	handle_ceiling(t_info *info, char **color_text)
 {
-	info->ceiling_color = color_text_to_color_num(color_text);
+	info->ceiling_color = color_text_to_color_num(color_text[1]);
+	free_parts(color_text);
 }
