@@ -22,7 +22,7 @@ void	draw(t_info *info)
 
 void	calc(t_info *info)
 {
-	cast_floor(info);
+	cast_floor_ceiling(info);
 	cast_wall(info);
 	cast_sprite(info);
 }
