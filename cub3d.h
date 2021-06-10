@@ -177,7 +177,7 @@ void	handle_floor(t_info *info, char **color_text);
 void	handle_ceiling(t_info *info, char **color_text);
 int		handle_map(t_info *info, char *line, int *y);
 void	check_map(t_info *info);
-void	cast_floor(t_info *info);
+void	cast_floor_ceiling(t_info *info);
 void	cast_wall(t_info *info);
 void	obtain_cast_sprite_params(
 			t_info *info, t_cast_stripe_params *params, int i);
