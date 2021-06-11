@@ -4,22 +4,18 @@ void	check_cell(t_info *info, int x, int y)
 {
 	if (y > 0
 		&& info->worldMap[y - 1][x] != 0
-		&& info->worldMap[y - 1][x] != 1
-		&& info->worldMap[y - 1][x] != 2)
+		&& info->worldMap[y - 1][x] != 1)
 		end_game(1, "Error:invalid map\n");
 	if (y < (info->map_height - 1)
 		&& info->worldMap[y + 1][x] != 0
-		&& info->worldMap[y + 1][x] != 1
-		&& info->worldMap[y + 1][x] != 2)
+		&& info->worldMap[y + 1][x] != 1)
 		end_game(1, "Error:invalid map\n");
 	if (x > 0
 		&& info->worldMap[y][x - 1] != 0
-		&& info->worldMap[y][x - 1] != 1
-		&& info->worldMap[y][x - 1] != 2)
+		&& info->worldMap[y][x - 1] != 1)
 		end_game(1, "Error:invalid map1\n");
 	if (info->worldMap[y][x + 1] != 0
-		&& info->worldMap[y][x + 1] != 1
-		&& info->worldMap[y][x + 1] != 2)
+		&& info->worldMap[y][x + 1] != 1)
 		end_game(1, "Error:invalid map2\n");
 	if ((y == 0
 			|| x == 0

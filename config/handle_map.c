@@ -7,34 +7,9 @@ int	proc_map_element(char c)
 		return (0);
 	if (c == '1')
 		return (1);
-	if (c == '2')
-		return (2);
 	if (c == 'N' || c == 'E' || c == 'W' || c == 'S')
 		return (0);
 	return (-1);
-}
-
-int	add_sprite(t_info *info, int y, int x)
-{
-	t_sprite	*new_sprites;
-	int			i;
-
-	new_sprites = (t_sprite *)malloc(sizeof(t_sprite) * (info->cntSprites + 1));
-	if (!new_sprites)
-		end_game(1, "malloc failed\n");
-	i = 0;
-	while (i < info->cntSprites)
-	{
-		new_sprites[i] = info->sprites[i];
-		i++;
-	}
-	if (info->cntSprites != 0)
-		free(info->sprites);
-	info->sprites = new_sprites;
-	info->sprites[i].y = (double)x + 0.5;
-	info->sprites[i].x = (double)y + 0.5;
-	info->cntSprites++;
-	return (1);
 }
 
 void	handle_line(t_info *info, int y, char *line, int line_len)
@@ -47,11 +22,9 @@ void	handle_line(t_info *info, int y, char *line, int line_len)
 		end_game(1, "malloc failed\n");
 	while (i < line_len)
 	{
-		if (!ft_strrchr(" 012NWES", line[i]))
+		if (!ft_strrchr(" 01NWES", line[i]))
 			end_game(1, "Error:invalid map\n");
 		info->worldMap[y][i] = proc_map_element(line[i]);
-		if (info->worldMap[y][i] == 2)
-			add_sprite(info, y, i);
 		if (ft_strrchr("NWES", line[i]))
 		{
 			if (info->initial_direction != '\0')

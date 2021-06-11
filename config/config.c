@@ -47,8 +47,6 @@ void	handle_info(t_info *info, char *line)
 		return (handle_texture(info, parts, 2));
 	if (ft_strcmp(parts[0], "SO"))
 		return (handle_texture(info, parts, 3));
-	if (ft_strcmp(parts[0], "S"))
-		return (handle_texture(info, parts, 4));
 	if (ft_strcmp(parts[0], "F"))
 		return (handle_floor(info, parts));   //free
 	if (ft_strcmp(parts[0], "C"))

@@ -24,7 +24,6 @@ void	calc(t_info *info)
 {
 	cast_floor_ceiling(info);
 	cast_wall(info);
-	cast_sprite(info);
 }
 
 int	main_loop(t_info *info)

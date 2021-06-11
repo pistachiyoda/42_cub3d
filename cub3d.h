@@ -6,7 +6,7 @@
 /*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 17:37:37 by fmai              #+#    #+#             */
-/*   Updated: 2021/06/01 23:06:45 by fmai             ###   ########.fr       */
+/*   Updated: 2021/06/11 10:00:00 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,35 +63,6 @@ typedef struct s_img
 	int		img_height;
 }				t_img;
 
-typedef struct s_sprite
-{
-	double		x;
-	double		y;
-}				t_sprite;
-
-typedef struct s_cast_stripe_params
-{
-	double	spriteX;
-	double	spriteY;
-	double	invDet;
-	double	transformX;
-	double	transformY;
-	int		spriteScreenX;
-	int		vMoveScreen;
-	int		spriteHeight;
-	int		spriteWidth;
-	int		drawStartY;
-	int		drawEndY;
-	int		drawStartX;
-	int		drawEndX;
-	int		stripe;
-	int		texX;
-	int		texY;
-	int		y;
-	int		d;
-	int		color;
-}				t_cast_stripe_params;
-
 typedef struct s_cast_wall_params
 {
 	int			wall_x;
@@ -139,15 +110,10 @@ typedef struct s_info
 	int			texture[5][4096];
 	double		moveSpeed;
 	double		rotSpeed;
-	t_sprite	*sprites;
-	int			cntSprites;
-	int			*spriteOrder;
-	double		*spriteDistance;
 	char		*north_texture_path;
 	char		*east_texture_path;
 	char		*west_texture_path;
 	char		*south_texture_path;
-	char		*sprite_texture_path;
 	int			floor_color;
 	int			ceiling_color;
 	int			**worldMap;
@@ -165,7 +131,6 @@ int		main_loop(t_info *info);
 int		key_press(int key, t_info *info);
 int		key_release(int key, t_info *info);
 int		load_texture(t_info *info);
-void	initSpriteOrder(t_info *info);
 int		close_window(t_info *info);
 int		read_config(t_info *info, char *file_path);
 void	init_position(t_info *info);
@@ -179,9 +144,6 @@ int		handle_map(t_info *info, char *line, int *y);
 void	check_map(t_info *info);
 void	cast_floor_ceiling(t_info *info);
 void	cast_wall(t_info *info);
-void	obtain_cast_sprite_params(
-			t_info *info, t_cast_stripe_params *params, int i);
-void	cast_sprite(t_info *info);
 void	calc_sidedist(t_info *info, t_cast_wall_params *params);
 void	calc_val_for_dda(t_info *info, t_cast_wall_params *params);
 void	dda(t_info *info, t_cast_wall_params *params);

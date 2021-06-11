@@ -16,7 +16,6 @@ void	end_game(int status, char *message)
 
 void	init_map_info(t_info *info)
 {
-	info->cntSprites = 0;
 	info->worldMap = NULL;
 	info->map_height = 0;
 	info->map_width = 0;
@@ -65,7 +64,6 @@ int	main(int argc, char **argv)
 	init_info(&info);
 	if (read_config(&info, argv[1]) != 1)
 		exit(0);
-	initSpriteOrder(&info);
 	info.win = mlx_new_window(info.mlx, SCREEN_WIDTH, SCREEN_HEIGHT, "mlx");
 	info.img.img = mlx_new_image(info.mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
 	info.img.data = (int *)mlx_get_data_addr(

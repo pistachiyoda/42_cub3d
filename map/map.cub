@@ -2,17 +2,12 @@ NO ./textures/kita.xpm
 SO ./textures/minami.xpm
 WE ./textures/nishi.xpm
 EA ./textures/higashi.xpm
-S ./textures/barrel.xpm
-F 0,255,0
-C 0,255,255
+F 255,255,255
+C 0,0,0
 
 1111111111
+1000000201
 1000000001
-1222202221
-1200000001
-1000000011
-1020000011
-10000N0001
-1101010101
+100000W001
 1000000001
 1111111111
