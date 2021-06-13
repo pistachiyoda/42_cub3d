@@ -1,5 +1,20 @@
 #include "cub3d.h"
-#include <stdio.h>
+
+int	comma_cnt(char *color_text)
+{
+	int	i;
+	int	cnt;
+
+	i = 0;
+	cnt = 0;
+	while (color_text[i])
+	{
+		if (color_text[i] == ',')
+			cnt++;
+		i++;
+	}
+	return (cnt);
+}
 
 void	check_color(char **color_text_parts)
 {
@@ -35,6 +50,8 @@ int	color_text_to_color_num(char *color_text)
 
 	if (color_text == NULL)
 		end_game(1, "color text is null\n");
+	if (comma_cnt(color_text) > 2)
+		end_game(1, "Error:Too much comma");
 	color_text_parts = ft_split(color_text, ',');
 	check_color(color_text_parts);
 	color_num = ft_atoi(color_text_parts[0]);
