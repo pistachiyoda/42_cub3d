@@ -39,19 +39,19 @@ void	handle_info(t_info *info, char *line)
 	parts = ft_split(line, ' ');
 	if (parts[0] == NULL)
 		return ;
-	if (ft_strcmp(parts[0], "NO"))
+	if (info->north_texture_path == NULL && ft_strcmp(parts[0], "NO"))
 		return (handle_texture(info, parts, 0));
-	if (ft_strcmp(parts[0], "WE"))
+	if (info->west_texture_path == NULL && ft_strcmp(parts[0], "WE"))
 		return (handle_texture(info, parts, 1));
-	if (ft_strcmp(parts[0], "EA"))
+	if (info->east_texture_path == NULL && ft_strcmp(parts[0], "EA"))
 		return (handle_texture(info, parts, 2));
-	if (ft_strcmp(parts[0], "SO"))
+	if (info->south_texture_path == NULL && ft_strcmp(parts[0], "SO"))
 		return (handle_texture(info, parts, 3));
-	if (ft_strcmp(parts[0], "F"))
-		return (handle_floor(info, parts));   //free
-	if (ft_strcmp(parts[0], "C"))
-		return (handle_ceiling(info, parts)); //free
-	end_game(1, "invalid config key\n"); //free
+	if (info->floor_color == -1 && ft_strcmp(parts[0], "F"))
+		return (handle_floor(info, parts));
+	if (info->ceiling_color == -1 && ft_strcmp(parts[0], "C"))
+		return (handle_ceiling(info, parts));
+	end_game(1, "Error:Invalid config\n");
 }
 
 int	info_completed(t_info *info)
