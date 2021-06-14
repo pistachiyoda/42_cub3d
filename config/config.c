@@ -19,19 +19,6 @@ int	ft_strcmp(char *a, char *b)
 	}
 }
 
-void	free_parts(char **parts)
-{
-	int	i;
-
-	i = 0;
-	while (parts[i] != NULL)
-	{
-		free(parts[i]);
-		i++;
-	}
-	free(parts);
-}
-
 void	handle_info(t_info *info, char *line)
 {
 	char	**parts;
@@ -68,16 +55,12 @@ int	info_completed(t_info *info)
 	return (0);
 }
 
-int	read_config(t_info *info, char *file_path)
+void	input_config(t_info *info, int fd)
 {
-	int		fd;
-	char	*line;
 	int		ret;
 	int		y;
+	char	*line;
 
-	fd = open(file_path, O_RDONLY);
-	if (fd == -1)
-		end_game(1, "file reading error\n");
 	ret = -1;
 	y = 0;
 	while (ret != 0)
@@ -96,6 +79,16 @@ int	read_config(t_info *info, char *file_path)
 			handle_map(info, line, &y);
 		free(line);
 	}
+}
+
+int	read_config(t_info *info, char *file_path)
+{
+	int		fd;
+
+	fd = open(file_path, O_RDONLY);
+	if (fd == -1)
+		end_game(1, "file reading error\n");
+	input_config(info, fd);
 	check_map(info);
 	init_position(info);
 	return (1);
