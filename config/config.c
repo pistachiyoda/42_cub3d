@@ -7,13 +7,9 @@ int	ft_strcmp(char *a, char *b)
 	while (1)
 	{
 		if (*a == '\0' && *b == '\0')
-		{
 			return (1);
-		}
 		if (*a != *b)
-		{
 			return (0);
-		}
 		a++;
 		b++;
 	}
