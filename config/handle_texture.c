@@ -6,12 +6,11 @@
 /*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 17:42:18 by fmai              #+#    #+#             */
-/*   Updated: 2021/06/15 21:00:46 by fmai             ###   ########.fr       */
+/*   Updated: 2021/06/16 14:10:47 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-#include <stdio.h>
 
 void	load_image(t_info *info, char *path, int direction)
 {
@@ -19,7 +18,6 @@ void	load_image(t_info *info, char *path, int direction)
 			info->mlx, path,
 			&info->texture[direction].img_width,
 			&info->texture[direction].img_height);
-
 	info->texture[direction].data = (int *)mlx_get_data_addr(
 			info->texture[direction].img,
 			&info->texture[direction].bpp,

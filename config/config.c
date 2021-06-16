@@ -1,6 +1,5 @@
 #include "cub3d.h"
 #include "get_next_line.h"
-#include <stdio.h>
 
 int	ft_strcmp(char *a, char *b)
 {

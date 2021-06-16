@@ -1,5 +1,4 @@
 #include "cub3d.h"
-#include <stdio.h>
 
 void	calc_tex(t_info *info, t_cast_wall_params *params)
 {
@@ -38,7 +37,7 @@ void	calc_texX(t_info *info, t_cast_wall_params *params)
 	if (params->side == 1 && params->rayDirY < 0)
 		params->texX = params->texture.img_width - params->texX - 1;
 }
-#include <stdio.h>
+
 void	set_colors(t_info *info, t_cast_wall_params *params)
 {
 	double	step;
@@ -55,9 +54,8 @@ void	set_colors(t_info *info, t_cast_wall_params *params)
 	{
 		texY = (int)texPos & (params->texture.img_height - 1);
 		texPos += step;
-		color = params->texture.data[params->texture.img_height * texY + params->texX];
-		if (params->side == 1)
-			color = (color >> 1) & 8355711;
+		color = params->texture.data[params->texture.img_height
+			* texY + params->texX];
 		info->buf[y][params->wall_x] = color;
 		y++;
 	}
