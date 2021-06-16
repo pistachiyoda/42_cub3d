@@ -1,15 +1,16 @@
 #include "cub3d.h"
+#include <stdio.h>
 
-void	calc_texnum(t_cast_wall_params *params)
-{	
+void	calc_tex(t_info *info, t_cast_wall_params *params)
+{
 	if (params->side == 0 && params->rayDirX <= 0)
-		params->texNum = 0;
+		params->texture = info->texture[0];
 	if (params->side == 1 && params->rayDirY <= 0)
-		params->texNum = 1;
+		params->texture = info->texture[1];
 	if (params->side == 1 && params->rayDirY > 0)
-		params->texNum = 2;
+		params->texture = info->texture[2];
 	if (params->side == 0 && params->rayDirX > 0)
-		params->texNum = 3;
+		params->texture = info->texture[3];
 }
 
 void	calc_drawstart_end(t_cast_wall_params *params)
@@ -31,13 +32,13 @@ void	calc_texX(t_info *info, t_cast_wall_params *params)
 	else
 		wallX = info->posX + params->perpWallDist * params->rayDirX;
 	wallX -= floor((wallX));
-	params->texX = (int)(wallX * (double)TEX_WIDTH);
+	params->texX = (int)(wallX * (double)params->texture.img_width);
 	if (params->side == 0 && params->rayDirX > 0)
-		params->texX = TEX_WIDTH - params->texX - 1;
+		params->texX = params->texture.img_width - params->texX - 1;
 	if (params->side == 1 && params->rayDirY < 0)
-		params->texX = TEX_WIDTH - params->texX - 1;
+		params->texX = params->texture.img_width - params->texX - 1;
 }
-
+#include <stdio.h>
 void	set_colors(t_info *info, t_cast_wall_params *params)
 {
 	double	step;
@@ -46,15 +47,15 @@ void	set_colors(t_info *info, t_cast_wall_params *params)
 	int		color;
 	int		y;
 
-	step = 1.0 * TEX_HEIGHT / params->lineHeight;
+	step = 1.0 * params->texture.img_height / params->lineHeight;
 	texPos = (params->drawStart - SCREEN_HEIGHT / 2 + params->lineHeight / 2)
 		* step;
 	y = params->drawStart;
 	while (y < params->drawEnd)
 	{
-		texY = (int)texPos & (TEX_HEIGHT - 1);
+		texY = (int)texPos & (params->texture.img_height - 1);
 		texPos += step;
-		color = info->texture[params->texNum][TEX_HEIGHT * texY + params->texX];
+		color = params->texture.data[params->texture.img_height * texY + params->texX];
 		if (params->side == 1)
 			color = (color >> 1) & 8355711;
 		info->buf[y][params->wall_x] = color;
@@ -82,7 +83,7 @@ void	cast_wall(t_info *info)
 				/ params.rayDirY;
 		params.lineHeight = (int)(SCREEN_HEIGHT / params.perpWallDist);
 		calc_drawstart_end(&params);
-		calc_texnum(&params);
+		calc_tex(info, &params);
 		calc_texX(info, &params);
 		set_colors(info, &params);
 		info->zBuffer[params.wall_x] = params.perpWallDist;

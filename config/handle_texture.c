@@ -6,35 +6,27 @@
 /*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 17:42:18 by fmai              #+#    #+#             */
-/*   Updated: 2021/05/28 17:47:28 by fmai             ###   ########.fr       */
+/*   Updated: 2021/06/15 21:00:46 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+#include <stdio.h>
 
-void	load_image(t_info *info, int *texture, char *path, t_img *img)
+void	load_image(t_info *info, char *path, int direction)
 {
-	int	y;
-	int	x;
+	info->texture[direction].img = mlx_xpm_file_to_image(
+			info->mlx, path,
+			&info->texture[direction].img_width,
+			&info->texture[direction].img_height);
 
-	img->img = mlx_xpm_file_to_image(
-			info->mlx, path, &img->img_width, &img->img_height);
-	img->data = (int *)mlx_get_data_addr(
-			img->img, &img->bpp, &img->size_l, &img->endian);
-	if (img->data == 0)
+	info->texture[direction].data = (int *)mlx_get_data_addr(
+			info->texture[direction].img,
+			&info->texture[direction].bpp,
+			&info->texture[direction].size_l,
+			&info->texture[direction].endian);
+	if (info->texture[direction].data == 0)
 		end_game(1, "load image failed");
-	y = 0;
-	while (y < img->img_height)
-	{
-		x = 0;
-		while (x < img->img_width)
-		{
-			texture[img->img_width * y + x] = img->data[img->img_width * y + x];
-			x++;
-		}
-		y++;
-	}
-	mlx_destroy_image(info->mlx, img->img);
 }
 
 int	file_exists(char *file_path)
@@ -50,8 +42,6 @@ int	file_exists(char *file_path)
 
 void	handle_texture(t_info *info, char **parts, int direction)
 {
-	t_img	img;
-
 	if (parts[0] == NULL)
 		end_game(1, "invalid file path\n");
 	if (!file_exists(parts[1]))
@@ -67,6 +57,6 @@ void	handle_texture(t_info *info, char **parts, int direction)
 		info->east_texture_path = parts[1];
 	if (ft_strcmp(parts[0], "SO"))
 		info->south_texture_path = parts[1];
-	load_image(info, info->texture[direction], parts[1], &img);
+	load_image(info, parts[1], direction);
 	free_parts(parts);
 }

@@ -6,7 +6,7 @@
 /*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 17:37:37 by fmai              #+#    #+#             */
-/*   Updated: 2021/06/11 10:00:00 by fmai             ###   ########.fr       */
+/*   Updated: 2021/06/15 21:07:04 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@
 # define	X_EVENT_KEY_PRESS	2
 # define	X_EVENT_KEY_RELEASE	3
 # define	X_EVENT_KEY_EXIT	17
-# define	TEX_WIDTH			64
-# define	TEX_HEIGHT			64
 # define	SCREEN_WIDTH			1000
 # define	SCREEN_HEIGHT		700
 # define	SUCCESS				1
@@ -79,7 +77,7 @@ typedef struct s_cast_wall_params
 	int			stepX;
 	int			stepY;
 	int			side;
-	int			texNum;
+	t_img		texture;
 	int			lineHeight;
 	int			drawStart;
 	int			drawEnd;
@@ -107,7 +105,7 @@ typedef struct s_info
 	t_img		img;
 	int			buf[SCREEN_HEIGHT][SCREEN_WIDTH];
 	double		zBuffer[SCREEN_WIDTH];
-	int			texture[5][4096];
+	t_img		texture[5];
 	double		moveSpeed;
 	double		rotSpeed;
 	char		*north_texture_path;
@@ -150,4 +148,5 @@ void	dda(t_info *info, t_cast_wall_params *params);
 void	key_update(t_info *info);
 void	key_move(t_info *info);
 void	key_rotate(t_info *info);
+void	free_parts(char **parts);
 #endif
