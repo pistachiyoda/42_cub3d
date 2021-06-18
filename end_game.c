@@ -2,10 +2,19 @@
 
 void	free_info(t_info *info)
 {
+	int	i;
+
 	mlx_destroy_window(info->mlx, info->win);
+	i = 0;
+	while (i < info->map_height)
+	{
+		free(info->worldMap[i]);
+		i++;
+	}
+	free(info->worldMap);
 }
 
-int		close_window(t_info *info)
+int	close_window(t_info *info)
 {
 	free_info(info);
 	ft_putstr_fd("exit\n", 1);
