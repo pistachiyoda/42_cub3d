@@ -21,28 +21,28 @@ void	handle_info(t_info *info, char *line)
 	parts = ft_split(line, ' ');
 	if (parts[0] == NULL)
 		return ;
-	if (info->north_texture_path == NULL && ft_strcmp(parts[0], "NO"))
+	if (info->texture[0].data == NULL && ft_strcmp(parts[0], "NO"))
 		return (handle_texture(info, parts, 0));
-	if (info->west_texture_path == NULL && ft_strcmp(parts[0], "WE"))
+	if (info->texture[1].data == NULL && ft_strcmp(parts[0], "WE"))
 		return (handle_texture(info, parts, 1));
-	if (info->east_texture_path == NULL && ft_strcmp(parts[0], "EA"))
+	if (info->texture[2].data == NULL && ft_strcmp(parts[0], "EA"))
 		return (handle_texture(info, parts, 2));
-	if (info->south_texture_path == NULL && ft_strcmp(parts[0], "SO"))
+	if (info->texture[3].data == NULL && ft_strcmp(parts[0], "SO"))
 		return (handle_texture(info, parts, 3));
 	if (info->floor_color == -1 && ft_strcmp(parts[0], "F"))
 		return (handle_floor(info, parts));
 	if (info->ceiling_color == -1 && ft_strcmp(parts[0], "C"))
 		return (handle_ceiling(info, parts));
-	end_game(1, "Error:Invalid config\n");
+	end_game(info, 1, "Error:Invalid config\n");
 }
 
 int	info_completed(t_info *info)
 {
 	if (
-		info->north_texture_path != NULL
-		&& info->east_texture_path != NULL
-		&& info->west_texture_path != NULL
-		&& info->south_texture_path != NULL
+		info->texture[0].data != NULL
+		&& info->texture[1].data != NULL
+		&& info->texture[2].data != NULL
+		&& info->texture[3].data != NULL
 		&& info->floor_color != -1
 		&& info->ceiling_color != -1
 	)
@@ -69,7 +69,7 @@ void	input_config(t_info *info, int fd)
 			continue ;
 		}
 		else if (info->worldMap != NULL && ft_strcmp(line, ""))
-			end_game(1, "unexpected empty line\n");
+			end_game(info, 1, "unexpected empty line\n");
 		else if (info_completed(info))
 			handle_map(info, line, &y);
 		free(line);
@@ -82,7 +82,7 @@ int	read_config(t_info *info, char *file_path)
 
 	fd = open(file_path, O_RDONLY);
 	if (fd == -1)
-		end_game(1, "file reading error\n");
+		end_game(info, 1, "file reading error\n");
 	input_config(info, fd);
 	check_map(info);
 	init_position(info);

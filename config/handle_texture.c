@@ -6,7 +6,7 @@
 /*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 17:42:18 by fmai              #+#    #+#             */
-/*   Updated: 2021/06/16 14:10:47 by fmai             ###   ########.fr       */
+/*   Updated: 2021/06/18 16:23:22 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	load_image(t_info *info, char *path, int direction)
 			&info->texture[direction].size_l,
 			&info->texture[direction].endian);
 	if (info->texture[direction].data == 0)
-		end_game(1, "load image failed");
+		end_game(info, 1, "load image failed");
 }
 
 int	file_exists(char *file_path)
@@ -41,20 +41,12 @@ int	file_exists(char *file_path)
 void	handle_texture(t_info *info, char **parts, int direction)
 {
 	if (parts[0] == NULL)
-		end_game(1, "invalid file path\n");
+		end_game(info, 1, "invalid file path\n");
 	if (!file_exists(parts[1]))
 	{
 		free_parts(parts);
-		end_game(1, "file not exists\n");
+		end_game(info, 1, "file not exists\n");
 	}
-	if (ft_strcmp(parts[0], "NO"))
-		info->north_texture_path = parts[1];
-	if (ft_strcmp(parts[0], "WE"))
-		info->west_texture_path = parts[1];
-	if (ft_strcmp(parts[0], "EA"))
-		info->east_texture_path = parts[1];
-	if (ft_strcmp(parts[0], "SO"))
-		info->south_texture_path = parts[1];
 	load_image(info, parts[1], direction);
 	free_parts(parts);
 }

@@ -37,7 +37,7 @@ int	main_loop(t_info *info)
 int	key_press(int key, t_info *info)
 {
 	if (key == K_ESC)
-		exit(0);
+		close_window(info);
 	else if (key == K_W)
 		info->key_w = 1;
 	else if (key == K_A)
@@ -55,9 +55,7 @@ int	key_press(int key, t_info *info)
 
 int	key_release(int key, t_info *info)
 {
-	if (key == K_ESC)
-		exit(0);
-	else if (key == K_W)
+	if (key == K_W)
 		info->key_w = 0;
 	else if (key == K_A)
 		info->key_a = 0;

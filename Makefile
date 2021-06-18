@@ -16,7 +16,7 @@ else
 endif
 # @todo -fsanitize取る
 CFLAGS = -Wall -Wextra -Werror $(INCS) -fsanitize=address
-CFILES = main.c calc.c\
+CFILES = main.c end_game.c calc.c\
 		./cast/cast_floor.c ./cast/cast_wall.c ./cast/dda.c\
 		./config/config.c ./config/free.c\
 		./config/handle_texture.c ./config/handle_floor_ceiling.c\
@@ -29,7 +29,7 @@ HEAD = cub3d.h
 
 all: $(NAME)
 $(NAME): $(OBJ) $(GNL) $(LIBFT) $(MLX)
-	$(CC) $(OBJ) -o $(NAME) $(CFLAGS) $(LIBS) $(API)
+	$(CC) $(OBJ) -o $(NAME) $(CFLAGS) -g -O0 $(LIBS) $(API)
 $(GNL):
 	$(MAKE) -C ./gnl/
 $(LIBFT):

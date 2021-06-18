@@ -19,16 +19,16 @@ void	handle_line(t_info *info, int y, char *line, int line_len)
 	i = 0;
 	info->worldMap[y] = (int *)malloc(sizeof(int) * (line_len + 1));
 	if (!info->worldMap[y])
-		end_game(1, "malloc failed\n");
+		end_game(info, 1, "malloc failed\n");
 	while (i < line_len)
 	{
 		if (!ft_strrchr(" 01NWES", line[i]))
-			end_game(1, "Error:invalid map\n");
+			end_game(info, 1, "Error:invalid map\n");
 		info->worldMap[y][i] = proc_map_element(line[i]);
 		if (ft_strrchr("NWES", line[i]))
 		{
 			if (info->initial_direction != '\0')
-				end_game(1, "Error:invalid map\n");
+				end_game(info, 1, "Error:invalid map\n");
 			info->posX = y;
 			info->posY = i;
 			info->initial_direction = line[i];
@@ -55,7 +55,7 @@ int	handle_map(t_info *info, char *line, int *y)
 
 	new_map_array = (int **)malloc(sizeof(int *) * ((*y) + 1));
 	if (!new_map_array)
-		end_game(1, "malloc failed\n");
+		end_game(info, 1, "malloc failed\n");
 	i = 0;
 	while (i < *y)
 	{

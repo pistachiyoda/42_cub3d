@@ -6,7 +6,7 @@
 /*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 17:37:37 by fmai              #+#    #+#             */
-/*   Updated: 2021/06/15 21:07:04 by fmai             ###   ########.fr       */
+/*   Updated: 2021/06/18 16:20:45 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,13 +105,9 @@ typedef struct s_info
 	t_img		img;
 	int			buf[SCREEN_HEIGHT][SCREEN_WIDTH];
 	double		zBuffer[SCREEN_WIDTH];
-	t_img		texture[5];
+	t_img		texture[4];
 	double		moveSpeed;
 	double		rotSpeed;
-	char		*north_texture_path;
-	char		*east_texture_path;
-	char		*west_texture_path;
-	char		*south_texture_path;
 	int			floor_color;
 	int			ceiling_color;
 	int			**worldMap;
@@ -129,10 +125,11 @@ int		main_loop(t_info *info);
 int		key_press(int key, t_info *info);
 int		key_release(int key, t_info *info);
 int		load_texture(t_info *info);
-int		close_window(t_info *info);
 int		read_config(t_info *info, char *file_path);
 void	init_position(t_info *info);
-void	end_game(int status, char *message);
+int		close_window(t_info *info);
+void	end_game_without_info(int status, char *message);
+void	end_game(t_info *info, int status, char *message);
 int		ft_strcmp(char *a, char *b);
 void	free_parts(char **parts);
 void	handle_texture(t_info *info, char **parts, int direction);

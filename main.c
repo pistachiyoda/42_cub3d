@@ -1,28 +1,18 @@
 #include "cub3d.h"
 #include <stdio.h>
 
-int	close_window(t_info *info)
-{
-	mlx_destroy_window(info->mlx, info->win);
-	exit(1);
-	return (1);
-}
-
-void	end_game(int status, char *message)
-{
-	ft_putstr_fd(message, 1);
-	exit(status);
-}
-
 void	init_map_info(t_info *info)
 {
+	int i;
 	info->worldMap = NULL;
 	info->map_height = 0;
 	info->map_width = 0;
-	info->north_texture_path = NULL;
-	info->east_texture_path = NULL;
-	info->west_texture_path = NULL;
-	info->south_texture_path = NULL;
+	i = 0;
+	while (i < 4) {
+		info->texture[i].img = NULL;
+		info->texture[i].data = NULL;
+		i++;
+	}
 	info->floor_color = -1;
 	info->ceiling_color = -1;
 	info->initial_direction = '\0';
@@ -60,10 +50,10 @@ int	main(int argc, char **argv)
 	t_info	info;
 
 	if (argc != 2)
-		end_game(1, "Error:invalid argument");
+		end_game_without_info(1, "Error:invalid argument");
 	init_info(&info);
 	if (read_config(&info, argv[1]) != 1)
-		exit(0);
+		end_game(&info, 1, "Error: invalid config");
 	info.win = mlx_new_window(info.mlx, SCREEN_WIDTH, SCREEN_HEIGHT, "mlx");
 	info.img.img = mlx_new_image(info.mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
 	info.img.data = (int *)mlx_get_data_addr(
