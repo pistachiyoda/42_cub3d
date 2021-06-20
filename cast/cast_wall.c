@@ -54,8 +54,8 @@ void	set_colors(t_info *info, t_cast_wall_params *params)
 	{
 		texY = (int)texPos & (params->texture.img_height - 1);
 		texPos += step;
-		color = params->texture.data[params->texture.img_height
-			* texY + params->texX];
+		color = params->texture.data[params->texture.size_l
+			* texY / 4 + params->texX * (params->texture.bpp / 8) / 4];
 		info->buf[y][params->wall_x] = color;
 		y++;
 	}
