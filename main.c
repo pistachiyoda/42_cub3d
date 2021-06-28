@@ -52,12 +52,12 @@ int	main(int argc, char **argv)
 	if (argc != 2)
 		end_game_without_info(1, "Error:invalid argument");
 	init_info(&info);
-	if (read_config(&info, argv[1]) != 1)
-		end_game(&info, 1, "Error: invalid config");
 	info.win = mlx_new_window(info.mlx, SCREEN_WIDTH, SCREEN_HEIGHT, "mlx");
 	info.img.img = mlx_new_image(info.mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
 	info.img.data = (int *)mlx_get_data_addr(
 			info.img.img, &info.img.bpp, &info.img.size_l, &info.img.endian);
+	if (read_config(&info, argv[1]) != 1)
+		end_game(&info, 1, "Error: invalid config");
 	mlx_loop_hook(info.mlx, &main_loop, &info);
 	mlx_hook(info.win, X_EVENT_KEY_PRESS, 1L << 0, &key_press, &info);
 	mlx_hook(info.win, X_EVENT_KEY_RELEASE, 1L << 1, &key_release, &info);
