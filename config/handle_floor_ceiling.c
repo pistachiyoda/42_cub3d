@@ -25,22 +25,22 @@ void	check_color(t_info *info, char **color_text_parts)
 	while (i < 3)
 	{
 		if (color_text_parts[i] == NULL)
-			end_game(info, 1, "invalid color text format\n");
+			end_game(info, 1, "ERROR: Invalid color text format.\n");
 		if (
 			ft_atoi(color_text_parts[i]) < 0
 			|| ft_atoi(color_text_parts[i]) > 255)
-			end_game(info, 1, "color out of range\n");
+			end_game(info, 1, "ERROR: Color out of range.\n");
 		j = 0;
 		while (color_text_parts[i][j])
 		{
 			if (!ft_isdigit(color_text_parts[i][j]))
-				end_game(info, 1, "Error:Invalid color code");
+				end_game(info, 1, "ERROR: Invalid color code.");
 			j++;
 		}
 		i++;
 	}
 	if (color_text_parts[3] != NULL)
-		end_game(info, 1, "Error:Too much color element.");
+		end_game(info, 1, "ERROR: Too much color element.");
 }
 
 int	color_text_to_color_num(t_info *info, char *color_text)
@@ -49,9 +49,9 @@ int	color_text_to_color_num(t_info *info, char *color_text)
 	int		color_num;
 
 	if (color_text == NULL)
-		end_game(info, 1, "color text is null\n");
+		end_game(info, 1, "ERROR: Color text is null.\n");
 	if (comma_cnt(color_text) > 2)
-		end_game(info, 1, "Error:Too much comma");
+		end_game(info, 1, "ERROR: Too much comma.");
 	color_text_parts = ft_split(color_text, ',');
 	check_color(info, color_text_parts);
 	color_num = ft_atoi(color_text_parts[0]);
