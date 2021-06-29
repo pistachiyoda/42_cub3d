@@ -17,7 +17,7 @@ void	free_info(t_info *info)
 int	close_window(t_info *info)
 {
 	free_info(info);
-	ft_putstr_fd("exit\n", 1);
+	ft_putstr_fd("End game.\n", 1);
 	exit(0);
 }
 
