@@ -1,14 +1,15 @@
 #include "cub3d.h"
-#include <stdio.h>
 
 void	init_map_info(t_info *info)
 {
-	int i;
+	int	i;
+
 	info->worldMap = NULL;
 	info->map_height = 0;
 	info->map_width = 0;
 	i = 0;
-	while (i < 4) {
+	while (i < 4)
+	{
 		info->texture[i].img = NULL;
 		info->texture[i].data = NULL;
 		i++;
