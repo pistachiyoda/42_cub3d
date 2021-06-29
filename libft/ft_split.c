@@ -6,12 +6,11 @@
 /*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 22:39:26 by fmai              #+#    #+#             */
-/*   Updated: 2021/05/30 17:07:11 by fmai             ###   ########.fr       */
+/*   Updated: 2021/06/29 15:23:27 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
 
 static int	cnt_element(char const *s, char c)
 {

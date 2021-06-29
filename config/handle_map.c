@@ -1,5 +1,4 @@
 #include "cub3d.h"
-#include <stdio.h>
 
 int	proc_map_element(char c)
 {
