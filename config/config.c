@@ -33,7 +33,7 @@ void	handle_info(t_info *info, char *line)
 		return (handle_floor(info, parts));
 	if (info->ceiling_color == -1 && ft_strcmp(parts[0], "C"))
 		return (handle_ceiling(info, parts));
-	end_game(info, 1, "Error:Invalid config\n");
+	end_game(info, 1, "ERROR: Invalid config.\n");
 }
 
 int	info_completed(t_info *info)
@@ -69,22 +69,21 @@ void	input_config(t_info *info, int fd)
 			continue ;
 		}
 		else if (info->worldMap != NULL && ft_strcmp(line, ""))
-			end_game(info, 1, "unexpected empty line\n");
+			end_game(info, 1, "ERROR: Unexpected empty line.\n");
 		else if (info_completed(info))
 			handle_map(info, line, &y);
 		free(line);
 	}
 }
 
-int	read_config(t_info *info, char *file_path)
+void	read_config(t_info *info, char *file_path)
 {
 	int		fd;
 
 	fd = open(file_path, O_RDONLY);
 	if (fd == -1)
-		end_game(info, 1, "file reading error\n");
+		end_game(info, 1, "ERROR: Config file reading error.\n");
 	input_config(info, fd);
 	check_map(info);
 	init_position(info);
-	return (1);
 }
