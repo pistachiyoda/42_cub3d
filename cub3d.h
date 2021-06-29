@@ -6,7 +6,7 @@
 /*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 17:37:37 by fmai              #+#    #+#             */
-/*   Updated: 2021/06/18 16:20:45 by fmai             ###   ########.fr       */
+/*   Updated: 2021/06/28 22:33:49 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ int		main_loop(t_info *info);
 int		key_press(int key, t_info *info);
 int		key_release(int key, t_info *info);
 int		load_texture(t_info *info);
-int		read_config(t_info *info, char *file_path);
+void	read_config(t_info *info, char *file_path);
 void	init_position(t_info *info);
 int		close_window(t_info *info);
 void	end_game_without_info(int status, char *message);
