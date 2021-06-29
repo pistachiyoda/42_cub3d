@@ -28,13 +28,14 @@ LIBFT = ./libft/libft.a
 HEAD = cub3d.h
 
 all: $(NAME)
-$(NAME): $(OBJ) $(GNL) $(LIBFT) $(MLX)
+$(NAME): $(MLX) $(OBJ) $(GNL) $(LIBFT)
 	$(CC) $(OBJ) -o $(NAME) $(CFLAGS) -g -O0 $(LIBS) $(API)
 $(GNL):
 	$(MAKE) -C ./gnl/
 $(LIBFT):
 	$(MAKE) -C ./libft/
 $(MLX):
+	git submodule update -i
 	$(MAKE) -C $(MLX_PASS)
 	cp $(MLX) .
 clean:
