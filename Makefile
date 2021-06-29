@@ -1,4 +1,4 @@
-NAME = cub3d
+NAME = cub3D
 CC = gcc
 COMMON_LIBS = -lmlx -Lgnl -lgnl -Llibft -lft
 ifeq ($(shell uname), Darwin)
