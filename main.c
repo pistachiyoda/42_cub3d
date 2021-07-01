@@ -30,6 +30,8 @@ void	init_info(t_info *info)
 	info->key_w = 0;
 	info->key_s = 0;
 	info->key_d = 0;
+	info->key_right = 0;
+	info->key_left = 0;
 	info->key_esc = 0;
 	info->moveSpeed = 0.05;
 	info->rotSpeed = 0.05;
@@ -48,19 +50,21 @@ void	init_info(t_info *info)
 
 int	main(int argc, char **argv)
 {
-	t_info	info;
+	t_info *info;
 
 	if (argc != 2)
 		end_game_without_info(1, "ERROR: Invalid argument.");
-	init_info(&info);
-	info.win = mlx_new_window(info.mlx, SCREEN_WIDTH, SCREEN_HEIGHT, "cub3D");
-	info.img.img = mlx_new_image(info.mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
-	info.img.data = (int *)mlx_get_data_addr(
-			info.img.img, &info.img.bpp, &info.img.size_l, &info.img.endian);
-	read_config(&info, argv[1]);
-	mlx_loop_hook(info.mlx, &main_loop, &info);
-	mlx_hook(info.win, X_EVENT_KEY_PRESS, 1L << 0, &key_press, &info);
-	mlx_hook(info.win, X_EVENT_KEY_RELEASE, 1L << 1, &key_release, &info);
-	mlx_hook(info.win, X_EVENT_KEY_EXIT, 1L << 17, close_window, &info);
-	mlx_loop(info.mlx);
+
+	info = (t_info *)malloc(sizeof(t_info));
+	init_info(info);
+	info->win = mlx_new_window(info->mlx, SCREEN_WIDTH, SCREEN_HEIGHT, "cub3D");
+	info->img.img = mlx_new_image(info->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
+	info->img.data = (int *)mlx_get_data_addr(
+			info->img.img, &(info->img.bpp), &(info->img.size_l), &(info->img.endian));
+	read_config(info, argv[1]);
+	mlx_loop_hook(info->mlx, &main_loop, info);
+	mlx_hook(info->win, X_EVENT_KEY_PRESS, 1L << 0, &key_press, info);
+	mlx_hook(info->win, X_EVENT_KEY_RELEASE, 1L << 1, &key_release, info);
+	mlx_hook(info->win, X_EVENT_KEY_EXIT, 1L << 17, close_window, info);
+	mlx_loop(info->mlx);
 }

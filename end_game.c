@@ -5,6 +5,11 @@ void	free_info(t_info *info)
 	int	i;
 
 	mlx_destroy_window(info->mlx, info->win);
+	mlx_destroy_image(info->mlx, info->texture[0].img);
+	mlx_destroy_image(info->mlx, info->texture[1].img);
+	mlx_destroy_image(info->mlx, info->texture[2].img);
+	mlx_destroy_image(info->mlx, info->texture[3].img);
+	mlx_destroy_image(info->mlx, info->img.img);
 	i = 0;
 	while (i < info->map_height)
 	{
@@ -12,6 +17,8 @@ void	free_info(t_info *info)
 		i++;
 	}
 	free(info->worldMap);
+	free(info->mlx);
+	free(info);
 }
 
 int	close_window(t_info *info)
