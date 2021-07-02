@@ -14,8 +14,7 @@ else
 	API = -lXext -lX11 -lm
 	MLX_PASS = ./minilibx-linux/
 endif
-# @todo -fsanitize取る
-CFLAGS = -Wall -Wextra -Werror $(INCS) -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror $(INCS)
 CFILES = main.c end_game.c calc.c\
 		./cast/cast_floor.c ./cast/cast_wall.c ./cast/dda.c\
 		./config/config.c ./config/free.c\
