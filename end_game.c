@@ -17,6 +17,7 @@ void	free_info(t_info *info)
 		i++;
 	}
 	free(info->worldMap);
+	mlx_destroy_display(info->mlx);
 	free(info->mlx);
 	free(info);
 }
