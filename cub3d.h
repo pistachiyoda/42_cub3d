@@ -132,7 +132,7 @@ void	end_game_without_info(int status, char *message);
 void	end_game(t_info *info, int status, char *message);
 int		ft_strcmp(char *a, char *b);
 void	free_parts(char **parts);
-void	handle_texture(t_info *info, char **parts, int direction);
+void	handle_texture(t_info *info, char **parts, int direction, char *line);
 void	handle_floor(t_info *info, char **color_text);
 void	handle_ceiling(t_info *info, char **color_text);
 int		handle_map(t_info *info, char *line, int *y);

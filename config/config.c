@@ -20,19 +20,20 @@ void	handle_info(t_info *info, char *line)
 
 	parts = ft_split(line, ' ');
 	if (parts[0] == NULL)
-		return ;
+		return (free(line));
 	if (info->texture[0].data == NULL && ft_strcmp(parts[0], "NO"))
-		return (handle_texture(info, parts, 0));
+		return (handle_texture(info, parts, 0, line));
 	if (info->texture[1].data == NULL && ft_strcmp(parts[0], "WE"))
-		return (handle_texture(info, parts, 1));
+		return (handle_texture(info, parts, 1, line));
 	if (info->texture[2].data == NULL && ft_strcmp(parts[0], "EA"))
-		return (handle_texture(info, parts, 2));
+		return (handle_texture(info, parts, 2, line));
 	if (info->texture[3].data == NULL && ft_strcmp(parts[0], "SO"))
-		return (handle_texture(info, parts, 3));
+		return (handle_texture(info, parts, 3, line));
 	if (info->floor_color == -1 && ft_strcmp(parts[0], "F"))
 		return (handle_floor(info, parts));
 	if (info->ceiling_color == -1 && ft_strcmp(parts[0], "C"))
 		return (handle_ceiling(info, parts));
+	free(line);
 	end_game(info, 1, "ERROR: Invalid config.\n");
 }
 
@@ -69,7 +70,10 @@ void	input_config(t_info *info, int fd)
 			continue ;
 		}
 		else if (info->worldMap != NULL && ft_strcmp(line, ""))
+		{
+			free(line);
 			end_game(info, 1, "ERROR: Unexpected empty line.\n");
+		}
 		else if (info_completed(info))
 			handle_map(info, line, &y);
 		free(line);

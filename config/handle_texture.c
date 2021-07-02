@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
 void	load_image(t_info *info, char *path, int direction)
 {
 	info->texture[direction].img = mlx_xpm_file_to_image(
@@ -38,12 +37,11 @@ int	file_exists(char *file_path)
 	return (1);
 }
 
-void	handle_texture(t_info *info, char **parts, int direction)
+void	handle_texture(t_info *info, char **parts, int direction, char *line)
 {
-	if (parts[0] == NULL)
-		end_game(info, 1, "invalid file path\n");
 	if (!file_exists(parts[1]))
 	{
+		free(line);
 		free_parts(parts);
 		end_game(info, 1, "file not exists\n");
 	}

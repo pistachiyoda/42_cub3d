@@ -1,24 +1,38 @@
 #include "cub3d.h"
+#include <stdio.h>
 
 void	free_info(t_info *info)
 {
 	int	i;
 
 	mlx_destroy_window(info->mlx, info->win);
-	mlx_destroy_image(info->mlx, info->texture[0].img);
-	mlx_destroy_image(info->mlx, info->texture[1].img);
-	mlx_destroy_image(info->mlx, info->texture[2].img);
-	mlx_destroy_image(info->mlx, info->texture[3].img);
-	mlx_destroy_image(info->mlx, info->img.img);
-	i = 0;
-	while (i < info->map_height)
+	if (info->texture[0].img)
+		mlx_destroy_image(info->mlx, info->texture[0].img);
+	if (info->texture[1].img)
+		mlx_destroy_image(info->mlx, info->texture[1].img);
+	if (info->texture[2].img)
+		mlx_destroy_image(info->mlx, info->texture[2].img);
+	if (info->texture[3].img)
+		mlx_destroy_image(info->mlx, info->texture[3].img);
+	if (info->img.img)
+		mlx_destroy_image(info->mlx, info->img.img);
+
+	if (info->worldMap)
 	{
-		free(info->worldMap[i]);
-		i++;
+		i = 0;
+		while (i < info->map_height)
+		{
+			free(info->worldMap[i]);
+			i++;
+		}
+		free(info->worldMap);
 	}
-	free(info->worldMap);
-	mlx_destroy_display(info->mlx);
-	free(info->mlx);
+	if (info->mlx)
+	{
+		mlx_destroy_display(info->mlx);
+		free(info->mlx);
+	}
+
 	free(info);
 }
 
