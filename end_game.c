@@ -1,21 +1,9 @@
 #include "cub3d.h"
 #include <stdio.h>
 
-void	free_info(t_info *info)
+void	free_map(t_info *info)
 {
 	int	i;
-
-	mlx_destroy_window(info->mlx, info->win);
-	if (info->texture[0].img)
-		mlx_destroy_image(info->mlx, info->texture[0].img);
-	if (info->texture[1].img)
-		mlx_destroy_image(info->mlx, info->texture[1].img);
-	if (info->texture[2].img)
-		mlx_destroy_image(info->mlx, info->texture[2].img);
-	if (info->texture[3].img)
-		mlx_destroy_image(info->mlx, info->texture[3].img);
-	if (info->img.img)
-		mlx_destroy_image(info->mlx, info->img.img);
 
 	if (info->worldMap)
 	{
@@ -27,12 +15,27 @@ void	free_info(t_info *info)
 		}
 		free(info->worldMap);
 	}
+}
+
+void	free_info(t_info *info)
+{
+	mlx_destroy_window(info->mlx, info->win);
+	if (info->texture[0].img)
+		mlx_destroy_image(info->mlx, info->texture[0].img);
+	if (info->texture[1].img)
+		mlx_destroy_image(info->mlx, info->texture[1].img);
+	if (info->texture[2].img)
+		mlx_destroy_image(info->mlx, info->texture[2].img);
+	if (info->texture[3].img)
+		mlx_destroy_image(info->mlx, info->texture[3].img);
+	if (info->img.img)
+		mlx_destroy_image(info->mlx, info->img.img);
 	if (info->mlx)
 	{
 		mlx_destroy_display(info->mlx);
 		free(info->mlx);
 	}
-
+	free_map(info);
 	free(info);
 }
 
