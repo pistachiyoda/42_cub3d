@@ -1,5 +1,4 @@
 #include "cub3d.h"
-#include <stdio.h>
 
 void	free_map(t_info *info)
 {
