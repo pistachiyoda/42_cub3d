@@ -23,7 +23,7 @@ void	load_image(t_info *info, char *path, int direction)
 			&info->texture[direction].size_l,
 			&info->texture[direction].endian);
 	if (info->texture[direction].data == 0)
-		end_game(info, 1, "load image failed");
+		end_game(info, 1, "ERROR: load image failed");
 }
 
 int	file_exists(char *file_path)
@@ -43,7 +43,7 @@ void	handle_texture(t_info *info, char **parts, int direction, char *line)
 	{
 		free(line);
 		free_parts(parts);
-		end_game(info, 1, "file not exists\n");
+		end_game(info, 1, "ERROR: file not exists\n");
 	}
 	load_image(info, parts[1], direction);
 	free_parts(parts);
