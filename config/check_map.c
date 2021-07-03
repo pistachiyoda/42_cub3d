@@ -13,10 +13,10 @@ void	check_cell(t_info *info, int x, int y)
 	if (x > 0
 		&& info->worldMap[y][x - 1] != 0
 		&& info->worldMap[y][x - 1] != 1)
-		end_game(info, 1, "ERROR: Invalid map.1\n");
+		end_game(info, 1, "ERROR: Invalid map.\n");
 	if (info->worldMap[y][x + 1] != 0
 		&& info->worldMap[y][x + 1] != 1)
-		end_game(info, 1, "ERROR: Invalid map.2\n");
+		end_game(info, 1, "ERROR: Invalid map.\n");
 	if ((y == 0
 			|| x == 0
 			|| y == info->map_height - 1)
