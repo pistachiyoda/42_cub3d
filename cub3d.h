@@ -6,7 +6,7 @@
 /*   By: fmai <fmai@student.42tokyo.jp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 17:37:37 by fmai              #+#    #+#             */
-/*   Updated: 2021/06/28 22:33:49 by fmai             ###   ########.fr       */
+/*   Updated: 2021/07/03 09:35:45 by fmai             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@
 #  define 	K_AR_L	65361
 #  define	K_AR_R	65363
 #  define 	K_ESC	65307
+#  define	IS_LINUX 1
 # else
 #  define	K_W		13
 #  define	K_A		0
@@ -47,6 +48,8 @@
 #  define	K_AR_L	123
 #  define	K_AR_R	124
 #  define	K_ESC	53
+#  define	IS_LINUX 0
+void	mlx_destroy_display(void *ptr);
 # endif
 
 typedef struct s_img

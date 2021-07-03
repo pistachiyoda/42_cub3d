@@ -31,7 +31,8 @@ void	free_info(t_info *info)
 		mlx_destroy_image(info->mlx, info->img.img);
 	if (info->mlx)
 	{
-		mlx_destroy_display(info->mlx);
+		if (IS_LINUX)
+			mlx_destroy_display(info->mlx);
 		free(info->mlx);
 	}
 	free_map(info);
