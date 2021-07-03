@@ -28,7 +28,7 @@ HEAD = cub3d.h
 
 all: $(NAME)
 $(NAME): $(MLX) $(OBJ) $(GNL) $(LIBFT)
-	$(CC) $(OBJ) -o $(NAME) $(CFLAGS) -g -O0 $(LIBS) $(API)
+	$(CC) $(OBJ) -o $(NAME) $(CFLAGS) $(LIBS) $(API)
 $(GNL):
 	$(MAKE) -C ./gnl/
 $(LIBFT):
