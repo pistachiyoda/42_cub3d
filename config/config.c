@@ -20,7 +20,7 @@ void	handle_info(t_info *info, char *line)
 
 	parts = ft_split(line, ' ');
 	if (parts[0] == NULL)
-		return (free(line));
+		return (free_parts(parts));
 	if (info->texture[0].data == NULL && ft_strcmp(parts[0], "NO"))
 		return (handle_texture(info, parts, 0, line));
 	if (info->texture[1].data == NULL && ft_strcmp(parts[0], "WE"))
