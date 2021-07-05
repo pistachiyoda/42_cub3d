@@ -11,7 +11,7 @@ void	load_image(t_info *info, char *path, int direction)
 			&info->texture[direction].size_l,
 			&info->texture[direction].endian);
 	if (info->texture[direction].data == 0)
-		end_game(info, 1, "ERROR: load image failed");
+		end_game(info, 1, "ERROR: load image failed\n");
 }
 
 int	file_exists(char *file_path)
