@@ -34,7 +34,7 @@ void	check_color(t_info *info, char **color_text_parts)
 		while (color_text_parts[i][j])
 		{
 			if (!ft_isdigit(color_text_parts[i][j]))
-				end_game(info, 1, "ERROR: Invalid color code."\n);
+				end_game(info, 1, "ERROR: Invalid color code.\n");
 			j++;
 		}
 		i++;
